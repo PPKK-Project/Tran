@@ -1,4 +1,4 @@
-package com.project.team.Entity;
+package com.project.team.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Accommodation {
+public class Attraction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,20 +21,13 @@ public class Accommodation {
 
     private String name;
 
-    private String category;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    private String type;
 
     private String address;
-
-    private String openingHours;
-
-    private String fee;
-
-    private String websiteUrl;
 
     private Double latitude;
 
     private Double longitude;
+
+    private Double rating;
 }

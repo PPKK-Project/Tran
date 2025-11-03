@@ -1,9 +1,10 @@
-package com.project.team.Entity;
+package com.project.team.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,20 +13,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Embassy {
+@AllArgsConstructor
+public class Restriction {
 
     @Id
-    @GeneratedValue(strategy =     GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String embassyNm;
+    private String countryCode;
 
-    private String embassyCd;
-
-    private String embassyAddr;
-
-    private String telNo;
-
-    private String embassyKorNm;
-
+    private String restrictionLevel;
+    
 }
