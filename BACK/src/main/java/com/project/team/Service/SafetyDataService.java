@@ -1,14 +1,13 @@
 package com.project.team.Service;
 
 import com.project.team.Dto.SafetyApiResponse;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
 public class SafetyDataService {
 
     private final WebClient safetyApiWebClient;
@@ -16,6 +15,10 @@ public class SafetyDataService {
     @Value("${api.mofa.serviceKey}")
     private String serviceKey;
 
+    public SafetyDataService(
+            @Qualifier("safetyApiWebClient") WebClient safetyApiWebClient) {
+        this.safetyApiWebClient = safetyApiWebClient;
+    }
     /**
      * 외교부 여행경보 API를 호출하여 DTO로 변환
      */

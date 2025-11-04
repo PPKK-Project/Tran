@@ -29,23 +29,10 @@ public class WebClientConfig {
 
 ## 2\. 🗂️ 데이터 모델 (`DTO`) 정의
 
-각 $\text{API}$의 응답을 받기 위한 개별 $\text{DTO}$와, 최종적으로 $\text{Front-End}$에 보낼 통합 $\text{DTO}$를 정의합니다.
+정의 하려고 했는데 Json 파일을 그대로 프론트에 전달해도 문제가 없을거 같아서
+Dto로 변환 하실분은 변환하셔서 작업하셔도 문제 없습니다.
 
-```java
-// CurrencyDto.java, WeatherDto.java 등 개별 응답 DTO 정의 (생략)
-
-// FinalResponseDto.java (최종 통합 DTO)
-public class FinalResponseDto {
-    private WeatherDto weatherInfo;
-    private CurrencyDto currentRate;
-
-    // (생성자, Getter, Setter)
-    public FinalResponseDto(WeatherDto weatherInfo, CurrencyDto currentRate) {
-        this.weatherInfo = weatherInfo;
-        this.currentRate = currentRate;
-    }
-}
-```
+단, Dto를 사용하지 않을 경우엔 JsonNode 를 이용해 return하는 작업과 Dto변환말고 JsonNode.class 로 .bodyToMono(JsonNode.class);  변환하는 작업이 필요합니다.
 
 -----
 
