@@ -5,23 +5,22 @@
 
 ```java
 // WebClientConfig.java
-
 @Configuration
 public class WebClientConfig {
 
-    // 1. 환율 API 전용 WebClient
+    @Value("${api.url.place}")
+    private String placeApiBaseUrl;
     @Bean
-    public WebClient currencyWebClient(WebClient.Builder builder) {
-        return builder.baseUrl("https://api.currency-service.com")
-                      .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                      .build();
+    public WebClient placeApiWebClient() {
+        return WebClient.builder().baseUrl(placeApiBaseUrl).build();
     }
 
-    // 2. 날씨 API 전용 WebClient
+
+    @Value("${api.url.safety}")
+    private String safetyApiBaseUrl;
     @Bean
-    public WebClient weatherWebClient(WebClient.Builder builder) {
-        return builder.baseUrl("https://api.weather-provider.com/v1")
-                      .build();
+    public WebClient safetyApiWebClient() {
+        return WebClient.builder().baseUrl(safetyApiBaseUrl).build();
     }
 }
 ```

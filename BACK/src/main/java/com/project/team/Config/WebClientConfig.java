@@ -25,6 +25,7 @@ public class WebClientConfig {
      */
     @Value("${api.url.safety}")
     private String safetyApiBaseUrl;
+    @Bean
     public WebClient safetyApiWebClient() {
         return WebClient.builder().baseUrl(safetyApiBaseUrl).build();
     }
