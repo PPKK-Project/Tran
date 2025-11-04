@@ -29,4 +29,12 @@ public class WebClientConfig {
     public WebClient safetyApiWebClient() {
         return WebClient.builder().baseUrl(safetyApiBaseUrl).build();
     }
+
+    /**
+    * Currency api*/
+
+    @Value("${api.url.currency}")
+    private String currencyBaseUrl;
+    @Bean
+    public WebClient currencyWebClient() { return WebClient.builder().baseUrl(currencyBaseUrl).build(); }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/safety")
+@RequestMapping("/api")
 public class SafetyDataController {
 
     private final SafetyDataCache safetyDataCache;
@@ -22,7 +22,7 @@ public class SafetyDataController {
     /**
      * 캐시된 국가별 여행경보 리스트를 JSON으로 반환
      */
-    @GetMapping("/countries")
+    @GetMapping("/info/countries")
     public List<SafetyApiResponse.CountrySafetyInfo> getSafetyLevels() {
         // 캐시된 데이터를 즉시 반환
         return safetyDataCache.getCachedSafetyList();
