@@ -23,6 +23,7 @@ public class TravelController {
         return travelService.createTravel(principal, dto);
     }
 
+<<<<<<< HEAD
     @PostMapping("/travels/{travelId}/attractions")
     public ResponseEntity<Travel> addAttractions(
             @PathVariable Long travelId, Principal principal,
@@ -42,13 +43,16 @@ public class TravelController {
         return travelService.addRestaurants(travelId, principal, restaurant);
     }
 
+=======
+>>>>>>> main
     @GetMapping("/travels")
     public ResponseEntity<List<Travel>> getTravel(Principal principal) {
         return travelService.getTravel(principal);
     }
 
     @GetMapping("/travels/{travelId}")
-    public ResponseEntity<Travel> getTravelById(@PathVariable Long travelId, Principal principal) {
+    public ResponseEntity<Travel> getTravelById(
+            @PathVariable Long travelId, Principal principal) {
         return travelService.getTravelById(travelId, principal);
     }
 
@@ -56,6 +60,7 @@ public class TravelController {
     public ResponseEntity<?> deleteTravelById(@PathVariable Long travelId, Principal principal) {
         return travelService.deleteTravelById(travelId, principal);
     }
+<<<<<<< HEAD
     @DeleteMapping("/attractions/{itemId}")
     public ResponseEntity<?> deleteAttractionsById(@PathVariable Long itemId, Principal principal) {
         return travelService.deleteAttractionsById(itemId, principal);
@@ -70,4 +75,6 @@ public class TravelController {
     }
 
 
+=======
+>>>>>>> main
 }
