@@ -1,6 +1,7 @@
 package com.project.team.Service.API;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.project.team.Dto.API.PlaceApiRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,14 @@ public class PlaceApiService {
 
 
     // 매개변수는 request ? dto?
-    public Mono<JsonNode> fetchPlaceApiData(String keyword, String lat, String lng, String radius, String type) {
+    public Mono<JsonNode> fetchPlaceApiData(PlaceApiRequest placeApiRequest) {
         return placeApiWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/maps/api/place/nearbysearch/json")
-                        .queryParam("keyword", keyword)
-                        .queryParam("location", lat+","+lng)
-                        .queryParam("radius", radius)
-                        .queryParam("type", type)
+                        .queryParam("keyword", placeApiRequest.keyword())
+                        .queryParam("location", placeApiRequest.lat()+","+placeApiRequest.lon())
+                        .queryParam("radius", placeApiRequest.radius())
+                        .queryParam("type", placeApiRequest.type())
                         .queryParam("key", placeApiKey)
                         .build())
                 .retrieve()

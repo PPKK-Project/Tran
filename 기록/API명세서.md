@@ -26,22 +26,24 @@
 
 | 목표 | 메소드 | 엔드포인트 | 설명 |
 | :--- | :--- | :--- | :--- |
-| **관광지 추가** | `POST` | `/travels/{travelId}/attractions` | 여행 계획에 새로운 관광지를 추가합니다. |
-| **숙소 추가** | `POST` | `/travels/{travelId}/accommodations` | 여행 계획에 숙소를 추가합니다. |
-| **음식점 추가** | `POST` | `/travels/{travelId}/restaurants` | 여행 계획에 음식점을 추가합니다. |
-| **여행 요소 제거** | `DELETE` | `/travels/{travelId}/items/{itemId}` | 관광지/숙소/음식점 중 하나를 ID로 제거합니다. |
+<!-- | **관광지 추가** | `POST` | `/travels/{travelId}/attractions` | 여행 계획에 새로운 관광지를 추가합니다. | -->
+<!-- | **숙소 추가** | `POST` | `/travels/{travelId}/accommodations` | 여행 계획에 숙소를 추가합니다. | -->
+<!-- | **음식점 추가** | `POST` | `/travels/{travelId}/restaurants` | 여행 계획에 음식점을 추가합니다. | -->
+<!-- | **관광지 요소 제거** | `DELETE` | `/attractions/{itemId}` | 관광지/숙소/음식점 중 하나를 ID로 제거합니다. | -->
+<!-- | **숙소 요소 제거** | `DELETE` | `/accommodations/{itemId}` | 관광지/숙소/음식점 중 하나를 ID로 제거합니다. | -->
+<!-- | **음식점 요소 제거** | `DELETE` | `/restaurants/{itemId}` | 관광지/숙소/음식점 중 하나를 ID로 제거합니다. | -->
 
 ### IV. 탐색 및 정보 제공 (Search & Info)
 보류
 | 목표 | 메소드 | 엔드포인트 | 설명 |
 | :--- | :--- | :--- | :--- |
-| **장소 검색** | `GET` | `/search/places` | Google Place API 호출을 프록시하여 숙박, 음식점, 병원 등 장소를 검색합니다. |
-| **위험 국가 목록** | `GET` | `/info/restrictions` | 여행 금지/경고 국가 목록을 조회합니다. |
-| **여행지 순위** | `GET` | `/info/ranking` | KOSIS 데이터 등을 기반으로 나라별 여행지 순위를 조회합니다. |
-| **위급 번호 조회** | `GET` | `/info/emergency` | 특정 국가의 구급차, 경찰, 소방서 등 비상 연락처를 조회합니다.|
-| **실시간 환율** | `GET` | `/info/currency` | 특정 국가의 실시간 환율 정보를 조회합니다. |
-| **팁/주의사항** | `GET` | `/info/tips` | 특정 국가의 여행 팁 및 주의사항을 조회합니다. |
-| **대사관 위치** | `GET` | `/search/embassy` | 특정 국가의 우리나라/기타 대사관 위치를 검색합니다. |
+<!-- | **장소 검색** | `GET` | `/api/places` | Google Place API 호출을 프록시하여 숙박, 음식점, 병원 등 장소를 검색합니다. | -->
+<!-- | **위험 국가 목록** | `GET` | `/api/countries` | 여행 금지/경고 국가 목록을 조회합니다. | -->
+| **여행지 순위** | `GET` | `/api/ranking` | KOSIS 데이터 등을 기반으로 나라별 여행지 순위를 조회합니다. |
+| **위급 번호 조회** | `GET` | `/api/emergency` | 특정 국가의 구급차, 경찰, 소방서 등 비상 연락처를 조회합니다.|
+<!-- | **실시간 환율** | `GET` | `/api/currency` | 특정 국가의 실시간 환율 정보를 조회합니다. | -->
+| **팁/주의사항** | `GET` | `/api/tips` | 특정 국가의 여행 팁 및 주의사항을 조회합니다. |
+<!-- | **대사관 위치** | `GET` | `/api/embassy` | 특정 국가의 우리나라/기타 대사관 위치를 검색합니다. | -->
 
 
 추후 수정 가능성 있음

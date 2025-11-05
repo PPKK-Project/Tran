@@ -1,6 +1,7 @@
 package com.project.team.Service.API;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.project.team.Dto.API.EmbassyApiRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,15 +21,15 @@ public class EmbassyService {
         this.embassyApiWebClient = embassyApiWebClient;
     }
 
-    public Mono<JsonNode> fetchEmbassyApiData(String pageNo, String numOfRows, String returnType, String condCountryNm, String condCountryIsoAlp2) {
+    public Mono<JsonNode> fetchEmbassyApiData(EmbassyApiRequest dto) {
         return embassyApiWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("1262000/EmbassyService2/getEmbassyList2")
-                        .queryParam("pageNo", pageNo)
-                        .queryParam("numOfRows", numOfRows)
-                        .queryParam("returnType", returnType)
-                        .queryParam("cond[country_nm::EQ]", condCountryNm)
-                        .queryParam("cond[country_iso_alp2::EQ]", condCountryIsoAlp2)
+                        .queryParam("pageNo", dto.pageNo())
+                        .queryParam("numOfRows", dto.numOfRows())
+                        .queryParam("returnType", "JSON")
+                        .queryParam("cond[country_nm::EQ]", dto.condCountryNm())
+                        .queryParam("cond[country_iso_alp2::EQ]", dto.condCountryIsoAlp2())
                         .queryParam("serviceKey", embassyApiKey)
                         .build())
                 .retrieve()
