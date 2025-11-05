@@ -1,8 +1,7 @@
 package com.project.team.Controller;
 
 import com.project.team.Dto.Travel.CreateTravelRequest;
-import com.project.team.Entity.Travel;
-import com.project.team.Entity.User;
+import com.project.team.Entity.*;
 import com.project.team.Service.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +18,33 @@ public class TravelController {
 
     @PostMapping("/travels")
     public ResponseEntity<Travel> createTravel(
-            @AuthenticationPrincipal User user,
+            Principal principal,
             @RequestBody CreateTravelRequest dto) {
-        return travelService.createTravel(user, dto);
+        return travelService.createTravel(principal, dto);
     }
 
+<<<<<<< HEAD
+    @PostMapping("/travels/{travelId}/attractions")
+    public ResponseEntity<Travel> addAttractions(
+            @PathVariable Long travelId, Principal principal,
+            Attraction attraction) {
+        return travelService.addAttractions(travelId, principal, attraction);
+    }
+    @PostMapping("/travels/{travelId}/accommodations")
+    public ResponseEntity<Travel> addAccommodations(
+            @PathVariable Long travelId, Principal principal,
+            Accommodation accommodation) {
+        return travelService.addAccommodations(travelId, principal, accommodation);
+    }
+    @PostMapping("/travels/{travelId}/restaurants")
+    public ResponseEntity<Travel> addRestaurants(
+            @PathVariable Long travelId, Principal principal,
+            Restaurant restaurant) {
+        return travelService.addRestaurants(travelId, principal, restaurant);
+    }
+
+=======
+>>>>>>> main
     @GetMapping("/travels")
     public ResponseEntity<List<Travel>> getTravel(Principal principal) {
         return travelService.getTravel(principal);
@@ -39,4 +60,21 @@ public class TravelController {
     public ResponseEntity<?> deleteTravelById(@PathVariable Long travelId, Principal principal) {
         return travelService.deleteTravelById(travelId, principal);
     }
+<<<<<<< HEAD
+    @DeleteMapping("/attractions/{itemId}")
+    public ResponseEntity<?> deleteAttractionsById(@PathVariable Long itemId, Principal principal) {
+        return travelService.deleteAttractionsById(itemId, principal);
+    }
+    @DeleteMapping("/accommodations/{itemId}")
+    public ResponseEntity<?> deleteAccommodationsById(@PathVariable Long itemId, Principal principal) {
+        return travelService.deleteAccommodationsById(itemId, principal);
+    }
+    @DeleteMapping("/restaurants/{itemId}")
+    public ResponseEntity<?> deleteRestaurantsById(@PathVariable Long itemId, Principal principal) {
+        return travelService.deleteRestaurantsById(itemId, principal);
+    }
+
+
+=======
+>>>>>>> main
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api")
 public class CurrencyController {
 
     private final CurrencyService currencyService;
@@ -19,9 +18,8 @@ public class CurrencyController {
         this.currencyService = currencyService;
     }
 
-    @GetMapping("/info/currency")
+    @GetMapping("/api/currency")
     public Mono<JsonNode> getRates() {
-
         return currencyService.fetchRates();
     }
 }
