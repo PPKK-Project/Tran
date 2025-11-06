@@ -20,7 +20,7 @@ import java.util.Map;
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtService jwtService;
 
-    @Value("${oauth2.success.redirect-url}")
+//    @Value("${oauth2.success.redirect-url}")
     private String redirectUrl;
 
     @Override
