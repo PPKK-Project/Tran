@@ -1,73 +1,133 @@
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
-.header {
+
+.main-container {
+  background: url('./assets/main-page.jpg') center center/cover no-repeat;
+  min-height: 94vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header.transparent-header {
+  position: absolute;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  width: 94%;
+  padding: 1.5rem 3rem;
+  background-color: transparent;
+  box-shadow: none;
+  z-index: 100;
 }
 
-.header-logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #3b82f6;
-  height: 3rem;
-}
-
-.header-user-actions {
+.header-left {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 30px;
 }
+
+.header-brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 1rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  color: black;
+}
+
+.nav-link:hover {
+  opacity: 1;
+}
+
 
 .header-login {
   background: none;
   border: none;
-  color: #4b5563;
   font-size: 1rem;
   cursor: pointer;
   padding: 0.5rem 0.75rem;
-  transition: color 0.2s;
+  transition: background-color 0.2s;
+  border-radius: 4px;
 }
 
 .header-login:hover {
-  color: #3b82f6;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-.header-signin {
-  background-color: #3b82f6;
-  color: #ffffff;
+
+.header-signin.transparent-signin {
+  background-color: transparent;
   font-weight: 600;
-  border: none;
-  border-radius: 0.375rem;
+  border: 1px solid black;
+  border-radius: 4px;
   padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s;
+  transition: background-color 0.2s;
 }
 
-.header-signin:hover {
-  background-color: #2563eb;
-  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3), 0 2px 4px -2px rgba(59, 130, 246, 0.2);
+.header-signin.transparent-signin:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: none;
 }
 
-.planning-wrapper {
-  background: url('/malg-eun-haneul-baegyeong-ejidowa-gwangwang.jpg') center/cover;
-  height: 45vh;
+.hero-content {
+  flex-grow: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: start;
+  text-align: center;
+  padding-left: 20vw;
+  color: white;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  padding-top: 50px;
+}
+
+.hero-subtext {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.hero-brand {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+/* 검색 div 구역 */
+
+.search-box-wrapper {
+  width: 100%;
+  display: flex;
+
+  padding-bottom: 50px;
 }
 
 .search-box {
   width: 90%;
-  max-width: 1000px;
-  padding: 20px;
-  border-radius: 20px;
+  max-width: 900px;
+  padding: 15px 20px;
+  border-radius: 12px;
+
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.15);
@@ -76,63 +136,41 @@ body {
   color: white;
 }
 
-.label-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.label-row label {
-  flex-basis: 20%;
-}
-
 .input-row {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: stretch;
 }
 
 .input-field {
-  display: flex;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: white;
   border-radius: 8px;
   padding: 10px 15px;
   flex-grow: 1;
-}
-
-.input-field span {
-  margin-right: 8px;
-  font-size: 18px;
+  display: flex;
+  align-items: center;
   color: #444;
 }
 
+.input-field.date-field {
+  flex-grow: 0.8;
+  min-width: 130px;
+}
+
 .input-field input {
-  border: none;
-  outline: none;
-  background: transparent;
-  width: 100%;
-  font-size: 16px;
   color: #333;
 }
 
 .search-button {
-  background-color: #ff8c37;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  padding: 0 20px;
-  cursor: pointer;
+  display: flex;
+  background-color: #3b82f6;
+  font-size: 1rem;
+  padding: 0 25px;
   transition: background-color 0.2s;
-  flex-shrink: 0;
 }
 
 .search-button:hover {
-  background-color: #ff7014;
+  background-color: #2563eb;
 }
 
 .search-button .search-icon {

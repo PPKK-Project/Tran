@@ -1,16 +1,20 @@
-
+// Header.jsx
 function Header() {
   return (
-    <header className="header">
-      <div>
-        <img src="./public/Logo.svg" alt="아이콘" className="header-logo"/>
+    // 배경색 없이 투명하게 처리합니다.
+    <header className="header transparent-header">
+      <div className="header-left">
+        <h1 className="header-brand-name">Tlan</h1>
+        <nav className="header-nav">
+          <a href="#" className="nav-link">인기여행지</a>
+          <a href="#" className="nav-link">정보</a>
+        </nav>
       </div>
-      <div>
-        여행 계획
-      </div>
+      
       <div className="header-user-actions">
+        {/* 로그인/회원가입 버튼 스타일 변경 */}
         <button className="header-login">로그인</button>
-        <button className="header-signin">회원가입</button>
+        <button className="header-signin transparent-signin">회원가입</button>
       </div>
     </header>
   );

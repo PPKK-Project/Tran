@@ -52,25 +52,12 @@ public class TravelService {
     }
 
     public ResponseEntity<Travel> getTravelById(Long id, Principal principal) {
-//        Travel travel = travelRepository.findById(id)
-//                .orElseThrow(()->new ResourceNotFoundException("Not found Resource"));
-//        if(!travel.getUser().getEmail().equals(principal.getName())) {
-//            throw new AccessDeniedException("해당 리소스에 접근할 권한이 없습니다.");
-//        }
-//        return ResponseEntity.ok(travel);
         return ResponseEntity.ok(validTravel(id, principal));
     }
 
 
     @Transactional
     public ResponseEntity<?> deleteTravelById(Long id, Principal principal) {
-//        Travel travel = travelRepository.findById(id)
-//                .orElseThrow(()->new ResourceNotFoundException("Not found Resource"));
-//        if(!travel.getUser().getEmail().equals(principal.getName())) {
-//            throw new AccessDeniedException("해당 리소스에 접근할 권한이 없습니다.");
-//        }
-//        travelRepository.delete(travel);
-//        return ResponseEntity.noContent().build();
         travelRepository.delete(validTravel(id, principal));
         return ResponseEntity.noContent().build();
     }
