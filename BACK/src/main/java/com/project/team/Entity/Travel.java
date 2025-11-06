@@ -21,8 +21,9 @@ public class Travel {
     @JsonIgnore
     private User user;
 
-    @Column(name = "country_code")
-    private String countryCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
 
     @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attraction> attractions = new ArrayList<>();
@@ -33,9 +34,9 @@ public class Travel {
     @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restaurant> restaurants = new ArrayList<>();
 
-    public Travel(User user, String countryCode) {
+    public Travel(User user, Country country) {
         this.user = user;
-        this.countryCode = countryCode;
+        this.country = country;
     }
     
     // 편하게 추가할 수 있게 한번에 추가하는 메서드

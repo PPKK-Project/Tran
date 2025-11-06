@@ -28,7 +28,8 @@ public class TeamApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         User user = new User("user", passwordEncoder.encode("user"), "user");
         userRepository.save(user);
-        Travel travel = new Travel(user, "JP");
+        Country country = new Country("US");
+        Travel travel = new Travel(user, country);
         Accommodation accommodation = new Accommodation(travel,"숙박지", "호텔", "호텔입니다", "주소", 35.123234, 128.135);
         Restaurant restaurant = new Restaurant(travel, "식당", "레스토랑", "식당인데용", 35.1232345, 128.135);
         Attraction attraction = new Attraction(travel, "관광지", "관광지입니다", 35.123234, 128.1245);

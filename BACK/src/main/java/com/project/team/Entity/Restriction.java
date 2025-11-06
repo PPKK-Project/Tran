@@ -1,9 +1,6 @@
 package com.project.team.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -15,12 +12,14 @@ public class Restriction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String countryCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
 
     private String restrictionLevel;
 
-    public Restriction(String countryCode, String restrictionLevel) {
-        this.countryCode = countryCode;
+    public Restriction(Country country, String restrictionLevel) {
+        this.country = country;
         this.restrictionLevel = restrictionLevel;
     }
 }
