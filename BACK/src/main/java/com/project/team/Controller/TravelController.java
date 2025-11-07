@@ -5,6 +5,8 @@ import com.project.team.Entity.*;
 import com.project.team.Service.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TravelController {
     private final TravelService travelService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/travels")
     public ResponseEntity<Travel> createTravel(
@@ -69,6 +72,7 @@ public class TravelController {
     public ResponseEntity<?> deleteRestaurantsById(@PathVariable Long itemId, Principal principal) {
         return travelService.deleteRestaurantsById(itemId, principal);
     }
+
 
 
 }
