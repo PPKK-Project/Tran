@@ -1,13 +1,19 @@
 package com.project.team.Service;
 
+import com.project.team.Dto.PatchUsersRecord;
 import com.project.team.Dto.UserSignUpRequest;
 import com.project.team.Entity.User;
+import com.project.team.Exception.AccessDeniedException;
 import com.project.team.Exception.EmailExistsException;
 import com.project.team.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +36,24 @@ public class UserService {
         return ResponseEntity.ok(userRepository.save(user));
 
     }
+
+    // 닉네임 수정
+    public ResponseEntity<?> patchNickname(PatchUsersRecord dto, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + principal.getName()));
+
+        boolean isPassword = passwordEncoder.matches(dto.password(), user.getPassword());
+
+        if(!isPassword) {
+            throw new AccessDeniedException("권한이 없습니다.");
+        }
+
+        user.setNickname(dto.nickname());
+        userRepository.save(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
