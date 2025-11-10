@@ -1,9 +1,7 @@
 import Header from "./Header";
 
-// Planning.jsx
 function Planning() {
   return (
-    // 배경 이미지를 전체 화면에 채우고 그 위에 콘텐츠를 띄웁니다.
     <div className="main-container">
       <Header />
 
@@ -14,29 +12,26 @@ function Planning() {
 
 
         <div className="search-box-wrapper">
-          <div className="search-box">
-            <div className="input-row">
-              <div className="input-field">
-                <span>✈️</span>
-                <input type="text" placeholder="출발 도시" />
-              </div>
-              <div className="input-field">
-                <span>📍</span>
-                <input type="text" placeholder="도착 도시" />
-              </div>
-              <div className="input-field date-field">
-                <span>📅</span>
-                <input type="date" />
-              </div>
-              <div className="input-field date-field">
-                <span>📅</span>
-                <input type="date" />
-              </div>
-              <button className="search-button">
-                <span className="search-icon">🛬</span>검색
-              </button>
-            </div>
-          </div>
+          <button id="planTripButton"
+            className="
+                    flex items-center justify-center
+                    bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700
+                    text-white text-lg font-semibold
+                    py-3 px-6 md:py-4 md:px-8
+                    rounded-full
+                    shadow-xl hover:shadow-2xl
+                    transition duration-300 ease-in-out
+                    transform hover:-translate-y-0.5
+                    focus:outline-none focus:ring-4 focus:ring-cyan-300
+                    w-full sm:w-auto
+                ">
+            <svg className="icon-travel mr-3" viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+
+            여행 계획하기
+          </button>
         </div>
       </div>
     </div>

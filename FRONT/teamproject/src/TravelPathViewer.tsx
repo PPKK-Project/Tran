@@ -150,7 +150,7 @@ function TravelPathViewer({ tripData }) { // ⭐️ tripData를 props로 받습�
             // window.initMapGlobally는 외부에서 정의했으므로 삭제하지 않습니다.
         };
 
-    }, [API_KEY, setApiReady]); // setApiReady는 React 훅에서 제공되므로 deps에 포함하는 것이 안전합니다.
+    }, [setApiReady]); // setApiReady는 React 훅에서 제공되므로 deps에 포함하는 것이 안전합니다.
 
     // 맵 로드가 완료되면 지도를 초기화
     useEffect(() => {
