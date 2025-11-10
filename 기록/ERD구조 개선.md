@@ -32,112 +32,73 @@
 다음 회의때 여행계획순서 테이블 세분화 하면서 같이 고려하면 좋을거같스빈다.
 
 
-임시 예시
+
 ```mermaid
 erDiagram
-    %% 1. 사용자 및 권한 관리 (Core Identity & Access)
     USER {
-        Long id PK "사용자 ID"
-        String email "로그인 ID"
+        Long id PK
+        String email
+        String password
         String nickname
     }
 
     TRAVEL {
-        Long id PK "여행 ID"
-        Long user_id FK "생성자 ID (OWNER)"
-        String title "여행 제목"
+        Long id PK
+        Long user_id FK "여행 생성자"
         String countryCode
+        String title
     }
 
     TRAVEL_PERMISSION {
-        Long id PK "권한 ID"
-        Long travel_id FK "여행 ID"
-        Long user_id FK "참여자 ID"
-        String role "OWNER/EDITOR/VIEWER (권한)"
+        Long id PK
+        Long travel_id FK "공유된 여행"
+        Long user_id FK "공유받은 사용자"
+        String role "역할"
     }
 
-    %% 2. 여행 계획 순서 및 장소 통합 관리 (Plan & Sequence)
     TRAVEL_PLAN {
-        Long id PK "일차 계획 ID"
-        Long travel_id FK "여행 ID"
-        Int day_number "1일차, 2일차"
+        Long id PK
+        Long travel_id FK "소속된 여행"
+        Long place_id FK "계획된 장소"
+        int sequence "순서"
+        String memo "메모"
+        int dayNumber "여행 일차"
     }
 
     PLACE {
-        Long id PK "장소 ID (통합)"
-        String api_id "외부 API ID (선택적)"
-        String name "장소 이름"
-        String type "ATTRACTION/ACCOM/REST/EMBASSY (타입)"
+        Long id PK
+        String name
+        String type
         String address
         Double latitude
         Double longitude
     }
 
-    TRAVEL_PLAN_DETAIL {
-        Long id PK "순서 상세 ID"
-        Long plan_id FK "일차 계획 ID"
-        Long place_id FK "방문 장소 ID"
-        Int sequence "당일 방문 순서"
-        String memo "메모"
-    }
-
-    %% 3. 장소 타입별 상세 정보 (1:1 Relationships with PLACE)
     ACCOMMODATION {
         Long id PK
-        Long place_id FK "PLACE ID"
-        String type
+        Long place_id FK "장소 정보"
         String phoneNumber
+    }
+
+    ATTRACTION {
+        Long id PK
+        Long place_id FK "장소 정보"
+        Boolean openingHours
     }
 
     RESTAURANT {
         Long id PK
-        Long place_id FK "PLACE ID"
-        String cuisine_type
+        Long place_id FK "장소 정보"
         String phoneNumber
     }
 
-    EMBASSY {
-        Long id PK
-        Long place_id FK "PLACE ID"
-        String country
-    }
+    USER ||--o{ TRAVEL : "creates"
+    USER ||--o{ TRAVEL_PERMISSION : "has"
+    TRAVEL ||--o{ TRAVEL_PERMISSION : "is_shared_via"
+    TRAVEL ||--o{ TRAVEL_PLAN : "has"
+    PLACE ||--o{ TRAVEL_PLAN : "is_planned_in"
+    PLACE ||--o{ ACCOMMODATION : "details_as"
+    PLACE ||--o{ ATTRACTION : "details_as"
+    PLACE ||--o{ RESTAURANT : "details_as"
 
-    %% 4. 부가 서비스 (Ancillary Services)
-    CHAT_ROOM {
-        Long id PK "채팅방 ID"
-        Long travel_id FK "관련 여행 ID"
-    }
-
-    CHAT_MESSAGE {
-        Long id PK "메시지 ID"
-        Long room_id FK "채팅방 ID"
-        Long user_id FK "발신자 ID"
-        String content
-    }
-
-    NOTIFICATION {
-        Long id PK "알림 ID"
-        Long user_id FK "수신자 ID"
-        String type
-    }
-
-
-    %% 관계 정의
-    USER ||--o{ TRAVEL : "생성 (Owner)"
-    USER ||--o{ TRAVEL_PERMISSION : "참여"
-    TRAVEL ||--o{ TRAVEL_PERMISSION : "권한"
-    
-    TRAVEL ||--o{ TRAVEL_PLAN : "포함"
-    TRAVEL_PLAN ||--o{ TRAVEL_PLAN_DETAIL : "순서"
-    PLACE ||--o{ TRAVEL_PLAN_DETAIL : "방문"
-
-    PLACE ||--o| ACCOMMODATION : "상세_정보"
-    PLACE ||--o| RESTAURANT : "상세_정보"
-    PLACE ||--o| EMBASSY : "상세_정보"
-
-    TRAVEL ||--o| CHAT_ROOM : "연결"
-    CHAT_ROOM ||--o{ CHAT_MESSAGE : "메시지"
-    USER ||--o{ CHAT_MESSAGE : "발신"
-    USER ||--o{ NOTIFICATION : "수신"
 ```
-

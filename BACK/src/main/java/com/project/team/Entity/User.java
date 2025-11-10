@@ -2,15 +2,13 @@ package com.project.team.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="users")
@@ -29,8 +27,10 @@ public class User {
     private String nickname;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private List<Travel> travels;
+
+    @OneToMany(mappedBy = "travel_permission", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TravelPlan> travelPermission = new ArrayList<>();
 
     public User(String email, String password, String nickname) {
         this.email = email;

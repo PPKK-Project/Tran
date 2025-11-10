@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Planning />
     <Warning />
     <Place />
-    <Counter />
+    {/* <Counter />gi */}
     <Footer />
   </React.StrictMode>,
 )

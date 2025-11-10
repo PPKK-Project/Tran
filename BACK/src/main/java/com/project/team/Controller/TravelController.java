@@ -1,17 +1,21 @@
 package com.project.team.Controller;
 
-import com.project.team.Dto.Travel.CreateTravelRequest;
-import com.project.team.Entity.*;
+import com.project.team.Dto.Travel.AddPlanRequest;
+import com.project.team.Entity.Travel;
+import com.project.team.Entity.TravelPlan;
 import com.project.team.Service.TravelService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+=======
+>>>>>>> main
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,13 +23,16 @@ public class TravelController {
     private final TravelService travelService;
     private final SimpMessagingTemplate messagingTemplate;
 
-    @PostMapping("/travels")
-    public ResponseEntity<Travel> createTravel(
-            Principal principal,
-            @RequestBody CreateTravelRequest dto) {
-        return travelService.createTravel(principal, dto);
+    @PostMapping("/travels/{travelId}/plans")
+    public ResponseEntity<TravelPlan> addPlanToTravel(
+            @PathVariable Long travelId,
+            @RequestBody AddPlanRequest request,
+            Principal principal) {
+        TravelPlan addedPlan = travelService.addPlan(travelId, request, principal);
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedPlan);
     }
 
+<<<<<<< HEAD
     @PostMapping("/travels/{travelId}/attractions")
     public ResponseEntity<Travel> addAttractions(
             @PathVariable Long travelId, Principal principal,
@@ -75,4 +82,6 @@ public class TravelController {
 
 
 
+=======
+>>>>>>> main
 }
