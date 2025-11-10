@@ -84,7 +84,7 @@ public class SecurityConfig {
         // 허용할 프론트 엔드 주소
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:5174"));
         // 허용할 메서드
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PULL", "DELETE", "PATCH"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         // 허용할 헤더
         configuration.setAllowedHeaders(Arrays.asList("*"));    // 모든 헤더 허용
         // 쿠키나 인증 정보 허용
