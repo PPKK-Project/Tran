@@ -1,46 +1,61 @@
 package com.project.team.Service;
 
-import com.project.team.Dto.Travel.AddPlanRequest;
-import com.project.team.Entity.Place;
+import com.project.team.Dto.Travel.CreateTravelRequest;
 import com.project.team.Entity.Travel;
-import com.project.team.Entity.TravelPlan;
-import com.project.team.Exception.AccessDeniedException;
-import com.project.team.Exception.ResourceNotFoundException;
-import com.project.team.Repository.PlaceRepository;
-import com.project.team.Repository.TravelPlanRepository;
+import com.project.team.Entity.User;
 import com.project.team.Repository.TravelRepository;
+import com.project.team.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TravelService {
+
     private final TravelRepository travelRepository;
-    private final PlaceRepository placeRepository;
-    private final TravelPlanRepository travelPlanRepository;
+    private final UserRepository userRepository;
 
-    @Transactional
-    public TravelPlan addPlan(Long travelId, AddPlanRequest request, Principal principal) {
-        // 1. 여행(Travel) 조회
+    // 새로운 여행 계획 생성
+    public ResponseEntity<Travel> createTravel(CreateTravelRequest dto, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + principal.getName()));
+
+        return ResponseEntity.ok(travelRepository.save(new Travel(user, dto.countryCode(), dto.title())));
+    }
+
+    // 사용자가 접근 가능한 모든 여행 목록 조회
+    public ResponseEntity<List<Travel>> getTravels(Principal principal) {
+        return ResponseEntity.ok(travelRepository.findByUser_Email(principal.getName()));
+    }
+
+//    // 특정 여행의 상세 정보 조회
+//    public ResponseEntity<?> getTravelDetails(Long travelId) {
+//        return null;
+//    }
+
+    // 특정 여행의 기본 정보 수정
+    public ResponseEntity<Void> putTravel(Long travelId, String title) {
+        // travelId로 여행정보 가져옴
         Travel travel = travelRepository.findById(travelId)
-                .orElseThrow(() -> new ResourceNotFoundException("Travel not found with id: " + travelId));
+                .orElseThrow(() -> new IllegalArgumentException("해당 여행이 존재하지 않습니다. id=" + travelId));
 
-        // 2. 권한 확인 (여행 생성자만 추가 가능)
-        if (!travel.getUser().getEmail().equals(principal.getName())) {
-            throw new AccessDeniedException("You do not have permission to add a plan to this travel.");
-        }
+        travel.setTitle(title);
+        travelRepository.save(travel);
 
-        // 3. 장소(Place) 조회
-        Place place = placeRepository.findById(request.placeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Place not found with id: " + request.placeId()));
+        return ResponseEntity.ok().build();
+    }
 
-        // 4. 새로운 TravelPlan 생성 및 저장
-        TravelPlan newPlan = new TravelPlan(travel, request.sequence(), request.memo(), request.dayNumber());
-        newPlan.setPlace(place);
-
-        return travelPlanRepository.save(newPlan);
+    // 특정 여행 삭제
+    public ResponseEntity<?> deleteTravel(Long travelId) {
+        return null;
     }
 }
