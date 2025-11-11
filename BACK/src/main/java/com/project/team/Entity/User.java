@@ -29,8 +29,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Travel> travels;
 
-    @OneToMany(mappedBy = "travel_permission", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TravelPlan> travelPermission = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TravelPermission> travelPermission = new ArrayList<>();
 
     public User(String email, String password, String nickname) {
         this.email = email;

@@ -1,11 +1,13 @@
 package com.project.team.Controller;
 
+import com.project.team.Dto.Travel.AddPlanRequest;
 import com.project.team.Dto.Travel.TravelPlanResponse;
 import com.project.team.Dto.Travel.TravelPlanUpdateRequest;
 import com.project.team.Entity.User;
 import com.project.team.Service.TravelPlanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +46,14 @@ public class TravelPlanController {
             @AuthenticationPrincipal User user
     ){ travelPlanService.deleteTravelPlan(travelId,planId,user);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<TravelPlanResponse> addPlanToTravel(
+            @PathVariable Long travelId,
+            @RequestBody @Valid AddPlanRequest request,
+            @AuthenticationPrincipal User user) {
+        TravelPlanResponse response = travelPlanService.addPlan(travelId, request, user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

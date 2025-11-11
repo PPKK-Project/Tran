@@ -2,6 +2,7 @@ package com.project.team.Service.API;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.project.team.Dto.API.PlaceApiRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,17 +10,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class PlaceApiService {
     private final WebClient placeApiWebClient;
 
     @Value("${api.key.place}")
     private String placeApiKey;
-
-    public PlaceApiService(
-            @Qualifier("placeApiWebClient") WebClient placeApiWebClient) {
-        this.placeApiWebClient = placeApiWebClient;
-    }
-
 
     // 매개변수는 request ? dto?
     public Mono<JsonNode> fetchPlaceApiData(PlaceApiRequest placeApiRequest) {

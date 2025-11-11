@@ -1,12 +1,15 @@
 package com.project.team.Service;
 
+import com.project.team.Dto.Travel.AddPlanRequest;
 import com.project.team.Dto.Travel.TravelPlanResponse;
 import com.project.team.Dto.Travel.TravelPlanUpdateRequest;
+import com.project.team.Entity.Place;
 import com.project.team.Entity.Travel;
 import com.project.team.Entity.TravelPlan;
 import com.project.team.Entity.User;
 import com.project.team.Exception.AccessDeniedException;
 import com.project.team.Exception.ResourceNotFoundException;
+import com.project.team.Repository.PlaceRepository;
 import com.project.team.Repository.TravelPlanRepository;
 import com.project.team.Repository.TravelRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,17 @@ public class TravelPlanService {
 
     private final TravelPlanRepository travelPlanRepository;
     private final TravelRepository travelRepository; // TravelRepository 주입
+    private final PlaceRepository placeRepository; // PlaceRepository 주입
+
+    private Travel findTravelAndValidateOwner(Long travelId, User user) {
+        Travel travel = travelRepository.findById(travelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Travel not found with id: " + travelId));
+        if (!travel.getUser().getEmail().equals(user.getEmail())) {
+            throw new AccessDeniedException("You are not the owner of this travel plan.");
+        }
+        return travel;
+    }
+
 
     /**
      * 특정 여행의 전체 일정 목록 조회
@@ -73,14 +87,7 @@ public class TravelPlanService {
         return new TravelPlanResponse(travelPlan);
     }
 
-    private Travel findTravelAndValidateOwner(Long travelId, User user) {
-        Travel travel = travelRepository.findById(travelId)
-                .orElseThrow(() -> new ResourceNotFoundException("Travel not found with id: " + travelId));
-        if (!travel.getUser().getEmail().equals(user.getEmail())) {
-            throw new AccessDeniedException("You are not the owner of this travel plan.");
-        }
-        return travel;
-    }
+
 
     @Transactional
     public void deleteTravelPlan(Long travelId, Long planId, User user) {
@@ -96,5 +103,27 @@ public class TravelPlanService {
 
         }
         travelPlanRepository.delete(travelPlan);
+    }
+
+    @Transactional
+    public TravelPlanResponse addPlan(Long travelId, AddPlanRequest request, User user) {
+        // 1. 여행(Travel) 조회
+        Travel travel = travelRepository.findById(travelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Travel not found with id: " + travelId));
+
+        // 2. 권한 확인 (여행 생성자만 추가 가능, 추후 TravelPermission 확인 로직 추가 가능)
+        if (!travel.getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException("You do not have permission to add a plan to this travel.");
+        }
+
+        // 3. 장소(Place) 조회
+        Place place = placeRepository.findById(request.placeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Place not found with id: " + request.placeId()));
+
+        // 4. 새로운 TravelPlan 생성 및 저장
+        TravelPlan newPlan = new TravelPlan(travel, request.sequence(), request.memo(), request.dayNumber());
+        newPlan.setPlace(place);
+
+        return new TravelPlanResponse(travelPlanRepository.save(newPlan));
     }
 }

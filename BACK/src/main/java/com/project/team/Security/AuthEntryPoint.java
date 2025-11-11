@@ -16,6 +16,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
 
-        response.getWriter().write("{\"error\": \"Unauthorized - Please Log In\"}");
+        String message = authException.getMessage();
+        response.getWriter().write("{\"error\": \"Unauthorized - Please Log In\", \"message\": \"" + message + "\"}");
     }
 }

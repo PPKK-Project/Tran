@@ -39,6 +39,8 @@ function Footer() {
           © 2024 TravelPlan. All rights reserved.
         </div>
       </div>
+
+
     </footer>
   );
 }
