@@ -27,7 +27,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String username = jwtService.getAuthUser(request);
-
         // 사용자가 존재하고, Spring Security Context에 인증 정보가 없다면
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
