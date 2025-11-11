@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-
-// 페이지 컴포넌트 임포트
 import MainPage from './components/MainPage';
 import TravelPlanPage from './components/plan/TravelPlanPage';
 
@@ -12,10 +10,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <MainPage />,
+    // TODO: 공통 레이아웃(Header/Footer)을 위한 Outlet 설정 추천
   },
   {
     // :travelId 파라미터를 통해 어떤 여행인지 구분
-    path: '/travels/:travelId',
+    path: '/travels/:travelId', 
     element: <TravelPlanPage />,
   },
 ]);

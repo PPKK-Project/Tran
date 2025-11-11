@@ -8,23 +8,23 @@ export type SignUpType = {
  * 백엔드 PlaceResponse Record와 일치하는 타입
  */
 export type PlaceResponse = {
-  placeId: number;    // Long
+  placeId: number;
   name: string;
   address: string;
   type: string;       // (e.g., "숙소", "관광지", "음식점")
-  latitude: number;   // Double
-  longitude: number;  // Double
+  latitude: number;
+  longitude: number;
 }
 
 /**
  * 백엔드 TravelPlanResponse Record와 일치하는 타입
  */
 export type TravelPlan = {
-  planId: number;      // Long
-  dayNumber: number;   // int
-  sequence: number;    // int
+  planId: number;
+  dayNumber: number;
+  sequence: number;
   memo: string | null;
-  place: PlaceResponse; // PlaceResponse 타입으로 변경
+  place: PlaceResponse;
 }
 
 /**
@@ -54,3 +54,13 @@ export type PlaceSearchResult = {
   longitude: number;
 }
 
+export type Travel = {
+  id: number; // travelId
+  title: string;
+}
+
+export type CreateTravelRequest = {
+  title: string;
+}
+
+export type PlaceFilter = 'all' | '숙소' | '관광지' | '음식점';
