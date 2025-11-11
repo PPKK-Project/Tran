@@ -2,7 +2,6 @@ package com.project.team.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor // 다른 클래스에서 생성자가 필요해 AccessLevel.PROTECTED 생략
 public class TravelPermission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

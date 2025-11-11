@@ -68,6 +68,39 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponseRecord, HttpStatus.CONFLICT);
     }
 
+    /**
+     * 권한이 없을 때 (403)
+     * TravelPermissionService에서 발생한 PermissionDeniedException을 처리합니다.
+     */
+    @ExceptionHandler(PermissionDeniedException.class)
+    public ResponseEntity<ErrorResponseRecord> handlePermissionDeniedException(PermissionDeniedException ex, WebRequest request) {
+        ErrorResponseRecord errorResponseRecord = new ErrorResponseRecord(
+                LocalDateTime.now(),
+                HttpStatus.FORBIDDEN.value(),
+                "Forbidden",
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(errorResponseRecord, HttpStatus.FORBIDDEN);
+    }
+
+
+    /**
+     * 잘못된 요청일 때 (400)
+     * TravelPermissionService에서 발생하는 BadRequestException을 처리합니다.
+     */
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponseRecord> handleBadRequestException(BadRequestException ex, WebRequest request) {
+        ErrorResponseRecord errorResponseRecord = new ErrorResponseRecord(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(errorResponseRecord, HttpStatus.BAD_REQUEST);
+    }
+
 
 
 
