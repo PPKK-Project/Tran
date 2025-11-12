@@ -1,40 +1,36 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { 
-  GoogleMap, 
-  useJsApiLoader, 
-  MarkerF, 
-  InfoWindowF 
-} from '@react-google-maps/api';
-import { PlaceSearchResult, TravelPlan } from '../../../types';
+import React, { useState, useCallback, useEffect } from "react";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  MarkerF,
+  InfoWindowF,
+} from "@react-google-maps/api";
+import { PlaceSearchResult, TravelPlan } from "../../../types";
 
-
-// 컴포넌트 Props 타입 (팀 스타일 가이드에 따라 type으로)
 type Props = {
   plans: TravelPlan[]; // 현재 날짜에 해당하는 일정 목록
   searchPlaces: PlaceSearchResult[]; // 필터링된 "검색" 장소 목록
   onAddPlace: (place: PlaceSearchResult) => void; // 일정 추가 함수
-}
+};
 
 // 1. 지도가 표시될 컨테이너의 스타일
 const containerStyle = {
-  width: '100%',
-  height: '100%' // 부모 컴포넌트(flex-1)의 높이를 100% 사용
+  width: "100%",
+  height: "100%",
 };
 
-// 2. plans가 비어있을 때 표시할 기본 중심 좌표 (예: 제주도)
+// 2. plans가 비어있을 때 표시할 기본 중심 좌표 (현재는 임시로 제주도로 설정함)
 const defaultCenter = {
   lat: 33.361665,
-  lng: 126.520412
+  lng: 126.520412,
 };
 
-// .env 파일에서 API 키 가져오기
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
 
 const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
   // 3. Google Maps 스크립트 로더 훅
   const { isLoaded, loadError } = useJsApiLoader({
-    id: 'google-map-script',
+    id: "google-map-script",
     googleMapsApiKey: API_KEY || "",
   });
 
@@ -42,7 +38,8 @@ const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   // 정보창(InfoWindow)을 띄울 검색 마커 state
-  const [selectedSearchPlace, setSelectedSearchPlace] = useState<PlaceSearchResult | null>(null);
+  const [selectedSearchPlace, setSelectedSearchPlace] =
+    useState<PlaceSearchResult | null>(null);
 
   // 5. 지도가 로드될 때 map 인스턴스를 state에 저장
   const onLoad = useCallback(function callback(mapInstance: google.maps.Map) {
@@ -59,11 +56,11 @@ const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
     // 지도 인스턴스가 있고, plan이 1개 이상일 때
     if (map && plans.length > 0) {
       const bounds = new window.google.maps.LatLngBounds();
-      
-      plans.forEach(plan => {
+
+      plans.forEach((plan) => {
         bounds.extend({
           lat: plan.place.latitude,
-          lng: plan.place.longitude
+          lng: plan.place.longitude,
         });
       });
 
@@ -75,7 +72,6 @@ const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
       if (plans.length === 1) {
         map.setZoom(15);
       }
-      
     } else if (map) {
       // plan이 없으면 기본 좌표와 줌 레벨로 리셋
       map.setCenter(defaultCenter);
@@ -95,24 +91,24 @@ const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
 
   // 검색 결과 마커 아이콘 (파란 점)
   const SEARCH_MARKER_ICON = {
-  url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-  scaledSize: new window.google.maps.Size(32, 32),
-};
+    url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+    scaledSize: new window.google.maps.Size(32, 32),
+  };
 
-// 일정 마커 아이콘 (기본 빨간 마커 - label과 함께 사용됨)
+  // 일정 마커 아이콘 (기본 빨간 마커 - label과 함께 사용됨)
   const PLAN_MARKER_ICON = undefined;
-
 
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={defaultCenter} // 초기 센터
-      zoom={10}             // 초기 줌
+      zoom={10} // 초기 줌
       onLoad={onLoad}
       onUnmount={onUnmount}
       // 지도를 클릭하면 정보창 닫기
       onClick={() => setSelectedSearchPlace(null)}
-      options={{ // 불필요한 Google Maps UI 제거 (선택 사항)
+      options={{
+        // 불필요한 Google Maps UI 제거 (선택 사항)
         streetViewControl: false,
         mapTypeControl: false,
         fullscreenControl: false,
@@ -124,13 +120,14 @@ const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
           key={`plan-${plan.planId}`}
           position={{
             lat: plan.place.latitude,
-            lng: plan.place.longitude
+            lng: plan.place.longitude,
           }}
           title={plan.place.name} // 마커에 마우스 호버 시 장소 이름 표시
-          label={{ // 마커 위에 숫자(sequence) 표시
+          label={{
+            // 마커 위에 숫자(sequence) 표시
             text: `${plan.sequence}`,
-            color: 'white', // 숫자 색상
-            fontWeight: 'bold', // 폰트 굵기
+            color: "white", // 숫자 색상
+            fontWeight: "bold", // 폰트 굵기
           }}
           icon={PLAN_MARKER_ICON} // 기본 아이콘
           zIndex={10} // 일정 마커가 항상 위에 보이도록
@@ -143,7 +140,7 @@ const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
           key={`search-${place.placeId}`}
           position={{
             lat: place.latitude,
-            lng: place.longitude
+            lng: place.longitude,
           }}
           title={place.name}
           icon={SEARCH_MARKER_ICON}
@@ -160,14 +157,18 @@ const PlanMap: React.FC<Props> = ({ plans, searchPlaces, onAddPlace }) => {
         <InfoWindowF
           position={{
             lat: selectedSearchPlace.latitude,
-            lng: selectedSearchPlace.longitude
+            lng: selectedSearchPlace.longitude,
           }}
           onCloseClick={() => setSelectedSearchPlace(null)}
           options={{ zIndex: 20 }} // 정보창이 항상 위에 오도록
         >
-          <div className="p-1" style={{ color: 'black' }}>
-            <h4 className="font-bold text-base mb-1">{selectedSearchPlace.name}</h4>
-            <p className="text-sm text-gray-600">{selectedSearchPlace.category}</p>
+          <div className="p-1" style={{ color: "black" }}>
+            <h4 className="font-bold text-base mb-1">
+              {selectedSearchPlace.name}
+            </h4>
+            <p className="text-sm text-gray-600">
+              {selectedSearchPlace.category}
+            </p>
             <button
               onClick={() => {
                 onAddPlace(selectedSearchPlace); // 일정 추가

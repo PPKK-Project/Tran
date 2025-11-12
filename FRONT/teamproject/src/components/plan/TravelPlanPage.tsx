@@ -9,7 +9,7 @@ import ItinerarySummary from './ItinerarySummary';
 
 
 
-// --- Mock Data (장소 검색 API가 없으므로 임시 사용) ---
+// --- Mock Data ---
 const ALL_MOCK_PLACES: PlaceSearchResult[] = [
   { placeId: 101, name: '제주 오션뷰 호텔', category: '숙소', rating: 4.8, reviewCount: 328, imageUrl: 'https://placehold.co/100x100/a0c4ff/ffffff?text=Hotel', price: 180000, latitude: 33.5104, longitude: 126.4913 },
   { placeId: 102, name: '제주 한옥 스테이', category: '숙소', rating: 4.6, reviewCount: 156, imageUrl: 'https://placehold.co/100x100/a0c4ff/ffffff?text=Hanok', price: 220000, latitude: 33.4996, longitude: 126.5311 },
@@ -54,7 +54,6 @@ function TravelPlanPage() {
 
   /**
    * signin.tsx의 로직을 기반으로 인증 헤더를 포함하는 Axios 설정을 반환합니다.
-   * (api.ts를 사용하지 않으므로 이 페이지에 직접 정의)
    */
   const getAxiosConfig = (): AxiosRequestConfig => {
     const jwtToken = sessionStorage.getItem("jwt");

@@ -10,7 +10,6 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <MainPage />,
-    // TODO: 공통 레이아웃(Header/Footer)을 위한 Outlet 설정 추천
   },
   {
     // :travelId 파라미터를 통해 어떤 여행인지 구분
