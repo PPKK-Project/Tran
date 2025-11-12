@@ -45,8 +45,9 @@ public class TravelController {
 
     // 특정 여행 삭제 (OWNER만 가능)
     @DeleteMapping("/travels/{travelId}")
-    public ResponseEntity<?> deleteTravel(@PathVariable Long travelId) {
-        return travelService.deleteTravel(travelId);
+    public ResponseEntity<?> deleteTravel(@PathVariable Long travelId , Principal principal) {
+        travelService.deleteTravel(travelId,principal);
+        return ResponseEntity.noContent().build();
     }
 
 }

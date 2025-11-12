@@ -3,6 +3,7 @@ package com.project.team.Service;
 import com.project.team.Dto.Travel.CreateTravelRequest;
 import com.project.team.Entity.Travel;
 import com.project.team.Entity.User;
+import com.project.team.Exception.AccessDeniedException;
 import com.project.team.Repository.TravelRepository;
 import com.project.team.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,19 @@ public class TravelService {
     }
 
     // 특정 여행 삭제
-    public ResponseEntity<?> deleteTravel(Long travelId) {
-        return null;
+    public void deleteTravel(Long travelId, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + principal.getName()));
+        Travel travel = findTravelAndValidateOwner(travelId, user);
+        travelRepository.delete(travel);
+    }
+    private Travel findTravelAndValidateOwner(Long travelId, User user) {
+        Travel travel = travelRepository.findById(travelId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 여행이 존재하지 않습니다. id=" + travelId));
+
+        if (!travel.getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException("You do not have permission to access this travel.");
+        }
+        return travel;
     }
 }
