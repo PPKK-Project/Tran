@@ -1,10 +1,9 @@
 // Header.jsx
 import { useState, useEffect } from "react";
-import SignIn from "../login/SignIn";
 import SignUp from "../login/SignUp";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
+import SignIn from "../login/SignIn";
 
 function Header() {
   // localStorage에 토큰이 있는지 확인하여 초기 로그인 상태를 설정합니다.
@@ -24,23 +23,27 @@ function Header() {
     type: "info",
   });
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("jwt");
-  //   if (token) {
-  //     axios
-  //       .get(`${import.meta.env.VITE_BASE_URL}/check-token`, {
-  //         headers: { Authorization: token },
-  //       })
-  //       .then(() => {
-  //         setLogin(!!localStorage.getItem("jwt"));
-  //       })
-  //       .catch((err) => {
-  //         console.error("토큰 검증 실패:", err);
-  //         localStorage.removeItem("jwt");
-  //         setLogin(false);
-  //       });
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      try {
+        // JWT의 payload 부분을 디코딩합니다.
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        // 만료 시간(exp)은 초 단위이므로 1000을 곱해 밀리초로 변환합니다.
+        const expirationTime = payload.exp * 1000;
+
+        // 토큰이 만료되었다면 로그아웃 처리합니다.
+        if (expirationTime < Date.now()) {
+          console.log("토큰이 만료되었습니다.");
+          handleLogout();
+        }
+      } catch (error) {
+        console.error("토큰 디코딩 또는 검증 실패:", error);
+        // 토큰 형식이 잘못된 경우에도 로그아웃 처리합니다.
+        handleLogout();
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
