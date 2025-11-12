@@ -141,7 +141,7 @@ body {
 }
 
 /* .info-text {
-    white-space: nowrap; 
+    white-space: nowrap; 
 } */
 
 .tag-list {
@@ -168,14 +168,17 @@ body {
   margin-right: 6px;
 }
 
+/* 여행금지 (4단계) */
 .level-4 {
   border: 1px solid #7c3a44;
+  color: #7c3a44; /* 텍스트 색상 추가 */
 }
 
 .level-4-dot {
   background-color: #7c3a44;
 }
 
+/* 철수권고 (3단계) */
 .level-3 {
   border: 1px solid #e53935;
   color: #e53935;
@@ -185,6 +188,7 @@ body {
   background-color: #e53935;
 }
 
+/* 여행자제 (2단계) */
 .level-2 {
   border: 1px solid #ff7043;
   color: #ff7043;
@@ -193,6 +197,17 @@ body {
 .level-2-dot {
   background-color: #ff7043;
 }
+
+/* ⚠️ 추가된 부분: 여행유의 (1단계) 스타일 */
+.level-1 {
+  border: 1px solid #ffc107; /* 노란색 계열의 테두리 */
+  color: #ffc107; /* 노란색 계열의 텍스트 */
+}
+
+.level-1-dot {
+  background-color: #ffc107; /* 노란색 계열의 점 */
+}
+/* ------------------------------------- */
 
 .tag-list {
   display: flex;
@@ -204,7 +219,8 @@ body {
 .tag-inner-wrapper {
   display: flex;
   width: max-content;
-  animation: scroll-tags 40s linear infinite;
+  /* ⏱️ 수정된 부분: 애니메이션 속도 40s -> 25s */
+  animation: scroll-tags 120s linear infinite; 
 }
 
 .tag-group {
@@ -219,13 +235,43 @@ body {
 
 @keyframes scroll-tags {
   0% {
-    transform: translateX(100%);
+    transform: translateX(10%);
   }
 
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-240%);
   }
 }
+
+/* 아래는 범례(legend)에 필요한 스타일이며, 
+  기존 코드에는 없었지만, 레벨 1의 텍스트 색상을 위해 추가했습니다.
+*/
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.legend-text {
+  font-size: 14px;
+  border: none;
+}
+
+/* ALERT_LEVELS 배열에 기반한 범례 스타일 */
+.level-0 { color: #28a745; } /* 정상 - 녹색 계열 */
+.level-1 { color: #ffc107; } /* 여행유의 - 노란색 계열 */
+.level-2 { color: #ff7043; } /* 여행자제 - 주황색 계열 */
+.level-3 { color: #e53935; } /* 철수권고 - 빨간색 계열 */
+.level-4 { color: #7c3a44; } /* 여행금지 - 짙은 빨간색/갈색 계열 */
+
+/* ALERT_LEVELS 배열에 기반한 범례 점 스타일 */
+.normal-dot { background-color: #28a745; }
+.caution-dot { background-color: #ffc107; }
+.warning-dot { background-color: #ff7043; }
+.danger-dot { background-color: #e53935; }
+.prohibit-dot { background-color: #7c3a44; }
 
 .legend-container {
   display: flex;
@@ -253,51 +299,6 @@ body {
   border-radius: 50%;
   margin-right: 8px;
   flex-shrink: 0;
-}
-
-/* --- 경보 단계별 색상 정의 --- */
-.normal-dot {
-  background-color: #28a745;
-}
-
-.caution-dot {
-  background-color: #ffc107;
-}
-
-.warning-dot {
-  background-color: #dc3545;
-}
-
-.danger-dot {
-  background-color: #e53935;
-}
-
-.prohibit-dot {
-  background-color: #7c3a44;
-}
-
-
-.legend-text.level-0 {
-  color: #28a745;
-}
-
-.legend-text.level-1 {
-  color: #ffc107;
-}
-
-.legend-text.level-2 {
-  color: #dc3545;
-  border: none;
-}
-
-.legend-text.level-3 {
-  color: #e53935;
-  border: none;
-}
-
-.legend-text.level-4 {
-  color: #7c3a44;
-  border: none;
 }
 
 

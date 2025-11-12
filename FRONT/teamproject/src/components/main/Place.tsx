@@ -1,6 +1,25 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Content from "./Content";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase";
+
+async function getImageUrls(fileName: string) {
+  // Storage에 저장된 경로 (예: place_cards/place1.webp)
+  const imageRef = ref(storage, `place_cards/${fileName}`);
+  
+  try {
+    const url = await getDownloadURL(imageRef);
+    return url; // 이미지의 공개 다운로드 URL 반환
+  } catch (error) {
+    console.error("Error fetching image URL: ", error);
+    return null;
+  }
+}
+const fileNames = [
+    'place1.webp', 'place2.webp', 'place3.webp', 'place4.webp', 'place5.webp', 
+    'place6.webp', 'place7.webp', 'place8.webp', 'place9.webp', 'place10.webp'
+];
 
 type Place = {
   name: string,
@@ -11,6 +30,19 @@ function Place() {
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState(true);
   const [country, setCountry] = useState('');
+  const [imageUrls, setImageUrls] = useState<string[]>([]); 
+
+  useEffect(() => {
+    async function loadImages() {
+      // 모든 파일 이름에 대해 병렬로 URL을 가져옵니다.
+      const urls = await Promise.all(
+        fileNames.map(fileName => getImageUrls(fileName))
+      );
+      // null이 아닌 유효한 URL만 필터링하여 상태에 저장
+      setImageUrls(urls.filter((url): url is string => url !== null));
+    }
+    loadImages();
+  }, []);
   const handleCountry = (name: string) => {
     setCountry(name);
   }
@@ -37,7 +69,7 @@ function Place() {
             name: item.ITM_NM,
             value: Number(item.DT.replace(/,/g, '')) || 0,
           }))
-          .sort((a, b) => b.value - a.value);
+          .sort((a:{value:number}, b:{value:number}) => b.value - a.value);
         setPlaces(data);
       } catch (error) {
         console.error("데이터 로딩 실패: ", error);
@@ -61,9 +93,9 @@ function Place() {
           {places.map((place, index) => (
             <div key={place.name} onClick={() => handleCountry(place.name)} className="place-card">
               <div
-                className="card-background"
-                style={{ backgroundImage: `url()` }}
-              ></div>
+                className={`card-background`}
+                style={{ backgroundImage: `url(${imageUrls[index]})` }}
+              />
               <div className="card-overlay">
                 <span className="card-rank">
                   #{index + 1}
