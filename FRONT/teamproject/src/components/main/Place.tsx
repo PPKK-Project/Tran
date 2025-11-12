@@ -7,7 +7,7 @@ import { storage } from "../../firebase";
 async function getImageUrls(fileName: string) {
   // Storage에 저장된 경로 (예: place_cards/place1.webp)
   const imageRef = ref(storage, `place_cards/${fileName}`);
-  
+
   try {
     const url = await getDownloadURL(imageRef);
     return url; // 이미지의 공개 다운로드 URL 반환
@@ -17,8 +17,8 @@ async function getImageUrls(fileName: string) {
   }
 }
 const fileNames = [
-    'place1.webp', 'place2.webp', 'place3.webp', 'place4.webp', 'place5.webp', 
-    'place6.webp', 'place7.webp', 'place8.webp', 'place9.webp', 'place10.webp'
+  'place1.webp', 'place2.webp', 'place3.webp', 'place4.webp', 'place5.webp',
+  'place6.webp', 'place7.webp', 'place8.webp', 'place9.webp', 'place10.webp'
 ];
 
 type Place = {
@@ -30,7 +30,7 @@ function Place() {
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState(true);
   const [country, setCountry] = useState('');
-  const [imageUrls, setImageUrls] = useState<string[]>([]); 
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   useEffect(() => {
     async function loadImages() {
@@ -69,7 +69,7 @@ function Place() {
             name: item.ITM_NM,
             value: Number(item.DT.replace(/,/g, '')) || 0,
           }))
-          .sort((a:{value:number}, b:{value:number}) => b.value - a.value);
+          .sort((a: { value: number }, b: { value: number }) => b.value - a.value);
         setPlaces(data);
       } catch (error) {
         console.error("데이터 로딩 실패: ", error);

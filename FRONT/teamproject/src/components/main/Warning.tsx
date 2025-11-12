@@ -36,8 +36,8 @@ function Warning() {
           <div className="tag-list">
             <div className="tag-inner-wrapper">
               <div className="tag-group">
-                {data.map(item => (
-                  <div className={`warning-tag level-${item.alarmLevel}`}>
+                {data.map((item,index) => (
+                  <div key={index} className={`warning-tag level-${item.alarmLevel}`}>
                     <span className={`dot level-${item.alarmLevel}-dot`}></span>
                     {item.country_name} {item.alarmLevel}단계
                   </div>
