@@ -33,6 +33,7 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final AuthEntryPoint authEntryPoint;
     private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+    private final AuthenticationFilter authenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,10 +45,6 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public AuthenticationFilter authenticationFilter() {
-        return new AuthenticationFilter(jwtService, userDetailsService);
-    }
 
     // 애플리케이션의 보안 정책(인증/인가/세션/CORS 등) 을 전부 설정
     @Bean
@@ -66,7 +63,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(customOAuth2SuccessHandler))
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPoint))   // 인증 실패 시 처리
-                .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);   // JWT 필터 추가
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);   // JWT 필터 추가
         return http.build();
     }
 

@@ -2,6 +2,7 @@
 export type SignUpType = {
   email:string;
   password:string;
+  passwordCheck:string;
   nickname:string;
 }
 /**
