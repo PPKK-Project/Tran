@@ -1,9 +1,10 @@
 // 회원 가입
 export type SignUpType = {
-  email: string;
-  password: string;
-  nickname: string;
-};
+  email:string;
+  password:string;
+  passwordCheck:string;
+  nickname:string;
+}
 /**
  * 백엔드 PlaceResponse Record와 일치하는 타입
  */
