@@ -18,6 +18,8 @@ public class JwtService {
     // 비밀키 생성
     static final SecretKey key = Jwts.SIG.HS256.key().build();
 
+    public SecretKey getKey() { return key;}    // 다른 곳에서 비밀키를 쓸 수 있게 getter 설정
+
     // JWT 토큰 생성
     public String getToken(String email, Long userId) {
         return Jwts.builder()
