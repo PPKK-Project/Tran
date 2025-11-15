@@ -1,6 +1,17 @@
 import { useState } from "react";
 import Content from "./Content";
 import { usePlacesData } from "../../util/usePlacesData";
+import "../../css/Place.css";
+import place1 from '../../assets/place1.webp';
+import place2 from '../../assets/place2.webp';
+import place3 from '../../assets/place3.webp';
+import place4 from '../../assets/place4.webp';
+import place5 from '../../assets/place5.webp';
+import place6 from '../../assets/place6.webp';
+import place7 from '../../assets/place7.webp';
+import place8 from '../../assets/place8.webp';
+import place9 from '../../assets/place9.webp';
+import place10 from '../../assets/place10.webp';
 
 export type Place = {
   name: string,
@@ -13,15 +24,18 @@ type Country = {
 }
 
 function Place() {
-  const { places, imageUrls, isLoading } = usePlacesData();
+  const { places, isLoading } = usePlacesData();
   const [country, setCountry] = useState<Country>({ country_name: '일본', rank: 1 });
+
+  // import한 이미지들을 배열로 만듭니다.
+  const imageUrls = [place1, place2, place3, place4, place5, place6, place7, place8, place9, place10];
 
   const handleCountry = (name: string, rank: number) => {
     setCountry({ country_name: name, rank: rank });
   }
 
   if (isLoading) return <div className="status-message">데이터를 불러오는 중입니다...</div>;
-  if (!places || !imageUrls || places.length === 0) return <div className="status-message">표시할 데이터가 없습니다.</div>;
+  if (!places || places.length === 0) return <div className="status-message">표시할 데이터가 없습니다.</div>;
 
   return (
     <>

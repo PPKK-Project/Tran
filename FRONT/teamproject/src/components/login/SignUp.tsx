@@ -2,9 +2,9 @@ import { ChangeEvent, useState, useEffect, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { SignUpType } from "../../../types";
+import { SignUpType } from "../../util/types";
 import axios from "axios";
-import "./signUp.css";
+import "../../css/signUp.css";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);

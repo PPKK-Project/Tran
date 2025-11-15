@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "./firebase";
 
 export type Place = {
   name: string;
@@ -33,19 +31,8 @@ const fetchPlaces = async (): Promise<Place[]> => {
     .sort((a: { value: number }, b: { value: number }) => b.value - a.value);
 };
 
-const fetchImageUrls = async (): Promise<string[]> => {
-  const fileNames = [
-    'place1.webp', 'place2.webp', 'place3.webp', 'place4.webp', 'place5.webp',
-    'place6.webp', 'place7.webp', 'place8.webp', 'place9.webp', 'place10.webp'
-  ];
-  const urlPromises = fileNames.map(fileName => getDownloadURL(ref(storage, `place_cards/${fileName}`)));
-  const urls = await Promise.all(urlPromises);
-  return urls.filter((url): url is string => url !== null);
-};
-
 export function usePlacesData() {
   const placesQuery = useQuery({ queryKey: ['places'], queryFn: fetchPlaces });
-  const imagesQuery = useQuery({ queryKey: ['placeImages'], queryFn: fetchImageUrls });
 
-  return { places: placesQuery.data, imageUrls: imagesQuery.data, isLoading: placesQuery.isLoading || imagesQuery.isLoading };
+  return { places: placesQuery.data, isLoading: placesQuery.isLoading };
 }

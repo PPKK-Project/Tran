@@ -6,7 +6,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import MainPage from "./components/MainPage";
+import MainPage from "./components/main/MainPage";
 import TravelPlanPage from "./components/plan/TravelPlanPage";
 import MyPage from "./components/myPage/MyPage";
 import axios from "axios";

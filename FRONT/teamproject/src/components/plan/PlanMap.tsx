@@ -5,7 +5,7 @@ import {
   MarkerF,
   InfoWindowF,
 } from "@react-google-maps/api";
-import { PlaceSearchResult, TravelPlan } from "../../../types";
+import { PlaceSearchResult, TravelPlan } from "../../util/types";
 
 type Props = {
   plans: TravelPlan[]; // 현재 날짜에 해당하는 일정 목록

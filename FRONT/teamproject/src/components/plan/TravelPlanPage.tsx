@@ -6,7 +6,7 @@ import {
   PlaceFilter,
   PlaceSearchResult,
   TravelPlan,
-} from "../../../types";
+} from "../../util/types";
 // import Header from "../main/Header"; // 헤더는 일단 주석 처리
 import PlanSidebar from "./PlanSidebar";
 import PlanMap from "./PlanMap";
