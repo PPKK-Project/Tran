@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 type countryInfo = {
   country_name: string,
   alarmLevel: number
@@ -13,16 +13,15 @@ function Warning() {
     { level: 3, text: "철수권고", colorClass: "danger", dotClass: "danger-dot" },
     { level: 4, text: "여행금지", colorClass: "prohibit", dotClass: "prohibit-dot" },
   ];
-  const [ data, setData ] = useState<countryInfo[]>([]);
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/countries`);
-      const data = response.data.filter((item:countryInfo) => item.alarmLevel > 0).sort((a:countryInfo, b:countryInfo) => b.alarmLevel - a.alarmLevel);
-      setData(data);
-    }
-    getData();
-  }, [])
 
+  const getWarningData = async () => {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/countries`);
+    return response.data.filter((item:countryInfo) => item.alarmLevel > 0).sort((a:countryInfo, b:countryInfo) => b.alarmLevel - a.alarmLevel);
+  }
+
+  const { data, isLoading } = useQuery<countryInfo[]>({ queryKey: ['warnings'], queryFn: getWarningData });
+
+  if (isLoading || !data) return null;
 
 
   return (

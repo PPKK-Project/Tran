@@ -807,6 +807,7 @@ body {
 
 .destinations-banner-container {
   width: 100%;
+  
   padding: 1rem 0;
   background-color: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
@@ -822,6 +823,7 @@ body {
 
 .destinations-inner-wrapper {
   display: flex;
+  overflow: hidden;
   width: max-content;
   animation: scroll-destinations 40s linear infinite;
 }

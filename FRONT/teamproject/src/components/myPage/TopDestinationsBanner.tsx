@@ -1,14 +1,9 @@
-import { useEffect, useState } from "react";
-import { Place } from "../main/Place";
+import { usePlacesData } from "../../util/usePlacesData";
 
 function TopDestinationsBanner() {
-  const [places, setPlaces] = useState<Place[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
-  
-  useEffect(() => {
-    setImageUrls(sessionStorage.getItem("imageUrls") ? JSON.parse(sessionStorage.getItem("imageUrls") as string) : []);
-    setPlaces(sessionStorage.getItem("places") ? JSON.parse(sessionStorage.getItem("places") as string) : []);
-  }, [])
+  const { places, imageUrls } = usePlacesData();
+
+  if (!places || !imageUrls) return null; // 데이터가 없으면 렌더링하지 않음
 
   return (
     <div className="destinations-banner-container">
