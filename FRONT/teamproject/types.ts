@@ -15,6 +15,9 @@ export type PlaceResponse = {
   type: string; // (e.g., "숙소", "관광지", "음식점")
   latitude: number;
   longitude: number;
+  phoneNumber?: string; // null일 수 있으므로 optional(?) 처리
+  openNow?: boolean;
+  openingHours?: string;
 };
 
 /**
@@ -61,6 +64,9 @@ export type PlaceSearchResult = {
   price?: number;
   latitude: number;
   longitude: number;
+  phoneNumber?: string;
+  openNow?: boolean;
+  openingHours?: string;
 };
 
 export type Travel = {

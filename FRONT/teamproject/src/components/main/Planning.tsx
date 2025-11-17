@@ -7,6 +7,7 @@ import { storage } from "../../firebase";
 import { useEffect, useState } from "react";
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+
 async function getImageUrls() {
   const imageRef = ref(storage, `main-page.webp`);
   try{
@@ -17,6 +18,7 @@ async function getImageUrls() {
     return null;
   }
 }
+
 function Planning() {
   const navigate = useNavigate(); // 페이지 이동을 위한 hook
   const [ url, setUrl ] = useState('');
