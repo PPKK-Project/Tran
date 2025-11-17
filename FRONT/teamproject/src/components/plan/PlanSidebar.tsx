@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlaceFilter, PlaceSearchResult } from '../../../types';
+import { PlaceFilter, PlaceSearchResult } from '../../util/types';
 
 type Props = {
   selectedDay: number;

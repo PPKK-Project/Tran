@@ -1,5 +1,5 @@
 import React from 'react';
-import { TravelPlan } from '../../../types';
+import { TravelPlan } from '../../util/types';
 import { AlertColor } from '@mui/material';
 
 type Props = {

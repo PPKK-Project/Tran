@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-import "./header.css";
+import "../../css/header.css";
 
 function Header() {
   // localStorage에 토큰이 있는지 확인하여 초기 로그인 상태를 설정합니다.
