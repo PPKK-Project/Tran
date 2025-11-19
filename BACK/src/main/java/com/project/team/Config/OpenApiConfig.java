@@ -1,20 +1,26 @@
 package com.project.team.Config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import org.springframework.context.annotation.Bean;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Tlan Project API",
+                description = "팀 프로젝트 Tlan API 명세서입니다.",
+                version = "v1.0.0"
+        ),
+        security = @SecurityRequirement(name = "bearerAuth") // 모든 API에 기본적으로 인증 요구 설정
+)
+@SecurityScheme(
+        name = "bearerAuth", // SecurityRequirement의 name과 일치해야 함
+        type = SecuritySchemeType.HTTP,
+        scheme = "bearer",
+        bearerFormat = "JWT"
+)
 public class OpenApiConfig {
-
-    @Bean
-    public OpenAPI tlanOpenApi() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Tlan API")
-                        .description("Tlan 애플리케이션을 위한 API 명세서입니다.")
-                        .version("v1.0.0")
-                );
-    }
 }
