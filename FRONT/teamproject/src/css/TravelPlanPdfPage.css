@@ -1,114 +1,155 @@
-/* src/pages/TravelPlanPdfPage.css */
-
+/* 전체 배경: 연한 하늘색, 위쪽으로 살짝 여백 */
 .travel-pdf-page {
   min-height: 100vh;
-  background-color: #f3f4f6;
-  padding: 24px;
+  padding: 32px 16px;
   box-sizing: border-box;
+  background: linear-gradient(180deg, #f5f8ff 0%, #eef3fb 100%);
+  display: flex;
+  justify-content: center;
 }
 
+/* A4 같은 세로 페이지 느낌 */
 .travel-pdf-container {
-  max-width: 960px;
-  margin: 0 auto;
+  width: 840px;
+  max-width: 100%;
   background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  padding: 24px 28px 28px;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
+  padding: 28px 30px 32px;
   box-sizing: border-box;
 }
 
-/* 상태 메시지들 */
+/* 로딩/에러/빈 상태 */
 .travel-pdf-loading,
 .travel-pdf-error,
 .travel-pdf-empty {
   font-size: 14px;
-  color: #4b5563;
+  color: #6b7280;
+  text-align: center;
 }
 
-/* 헤더 영역 */
+/* 상단 헤더 */
 .travel-pdf-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 16px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 .travel-pdf-title {
   margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: #111827;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #19c2f4;
 }
 
 .travel-pdf-subtitle {
-  margin: 4px 0 0;
+  margin: 0;
   font-size: 13px;
-  color: #6b7280;
+  color: #9ca3af;
 }
 
+/* 헤더 버튼 영역 (나중에 PDF 다운로드 버튼 놓을 자리) */
 .travel-pdf-header-actions {
+  width: 100%;
   display: flex;
-  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
 }
 
-/* 버튼 공통 스타일 (나중에 PDF 다운로드 버튼에 사용) */
+/* 공통 버튼 스타일 (PDF 다운로드에 사용 가능) */
 .travel-pdf-button {
-  padding: 8px 14px;
-  font-size: 13px;
+  padding: 11px 18px;
+  min-width: 160px;
+  font-size: 14px;
+  font-weight: 600;
   border-radius: 999px;
-  border: 1px solid #d1d5db;
-  background-color: #ffffff;
-  color: #374151;
+  border: none;
+  background-color: #bdeeff;
+  color: #ffffff;
   cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .travel-pdf-button.primary {
-  border-color: #2563eb;
-  background-color: #2563eb;
-  color: #ffffff;
+  background-color: #7fdcff;
 }
 
 .travel-pdf-button:hover {
-  filter: brightness(0.97);
+  background-color: #6dd3fa;
+  transform: translateY(-1px);
 }
 
-/* 섹션 */
+.travel-pdf-button:active {
+  transform: translateY(0);
+}
+
+/* 섹션 공통 */
 .travel-pdf-section {
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .travel-pdf-section-title {
-  margin: 0 0 8px;
-  font-size: 16px;
+  margin: 0 0 10px;
+  font-size: 15px;
   font-weight: 600;
   color: #111827;
 }
 
-/* Day 블럭 */
+/* ---------- Day 블록: TRAVEL PLANNER 스타일 ---------- */
 .travel-pdf-day-block {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 14px;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-bottom: 10px;
-  background-color: #f9fafb;
 }
 
-.travel-pdf-day-header {
+.travel-pdf-day-label-column {
+  background-color: #19c2f4;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ 세로로 글자 쌓기 */
+.travel-pdf-day-label-text {
+  display: flex;
+  flex-direction: column; /* 위→아래로 쌓기 */
+  align-items: center;
+  justify-content: center;
+  gap: 2px; /* 글자 사이 간격 */
+}
+
+.travel-pdf-day-label-char {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ffffff;
+}
+
+/* 오른쪽 내용 영역 */
+.travel-pdf-day-content {
+  padding: 10px 12px 12px;
+}
+
+/* Time / Activity 상단 바 */
+.travel-pdf-day-topbar {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  background-color: #cfe9ff; /* 아주 연한 하늘색 */
+  border-radius: 10px;
+  padding: 6px 10px;
   margin-bottom: 6px;
 }
 
-.travel-pdf-day-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1f2933;
-}
-
-.travel-pdf-day-count {
+.travel-pdf-day-topbar-title {
   font-size: 11px;
-  color: #6b7280;
+  font-weight: 600;
+  color: #4b5563;
 }
 
 /* 일정 리스트 */
@@ -118,66 +159,62 @@
   margin: 0;
 }
 
-.travel-pdf-plan-item {
-  padding: 6px 0;
-  border-top: 1px solid #e5e7eb;
+/* 각 줄 = Time 칸 + Activity 칸 */
+.travel-pdf-plan-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  padding: 6px 2px;
+  border-bottom: 1px dashed #e5e7eb;
 }
 
-.travel-pdf-plan-item:first-child {
-  border-top: none;
+.travel-pdf-plan-row:last-child {
+  border-bottom: none;
 }
 
-.travel-pdf-plan-main {
+/* 왼쪽: 1번째 + 타입 뱃지 */
+.travel-pdf-plan-time {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 2px;
-}
-
-.travel-pdf-plan-seq {
-  font-size: 12px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start; /* 가운데 말고 왼쪽 정렬 */
+  gap: 4px;
+  font-size: 11px;
   color: #6b7280;
 }
 
+/* ✅ 글자 수만큼만 차지하는 뱃지 */
+.travel-pdf-plan-type-badge {
+  display: inline-block; /* 내용만큼만 넓이 */
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap; /* 줄바꿈 금지 */
+}
+
+/* Activity 칸 */
+.travel-pdf-plan-activity {
+  font-size: 12px;
+}
+
 .travel-pdf-plan-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: #111827;
-}
-
-.travel-pdf-plan-type {
-  font-size: 11px;
-  color: #4b5563;
-  padding: 2px 6px;
-  border-radius: 999px;
-  background-color: #e5e7eb;
-}
-
-.travel-pdf-plan-sub {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  margin-bottom: 1px;
 }
 
 .travel-pdf-plan-address {
   font-size: 11px;
   color: #6b7280;
+  margin-top: 1px;
 }
 
 .travel-pdf-plan-memo {
   font-size: 11px;
   color: #4b5563;
-}
-
-/* PDF 미리보기 placeholder */
-.travel-pdf-preview-placeholder {
-  height: 260px;
-  border-radius: 12px;
-  border: 1px dashed #d1d5db;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  color: #6b7280;
-  background-color: #f9fafb;
+  margin-top: 1px;
 }

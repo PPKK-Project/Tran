@@ -22,6 +22,12 @@ public class PythonExecutorService {
     @Value("${flight-py-path}")
     private String scriptPath;
 
+    @jakarta.annotation.PostConstruct
+    public void debugPaths() {
+        System.out.println(">>> pythonExecutable = [" + pythonExecutable + "]");
+        System.out.println(">>> scriptPath      = [" + scriptPath + "]");
+    }
+
     public List<FlightData> executeFlightCrawler(
             String departureAp,
             String arrivalAp,
