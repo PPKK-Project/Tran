@@ -91,6 +91,7 @@ TeamProject/
 │   │   │   ├── 📁 service/      # 비즈니스 로직 처리 서비스 클래스
 │   │   │   ├── 📁 config/       # 애플리케이션 설정 클래스
 │   │   │   ├── 📁 utils/        # 유틸리티 클래스
+│   │   │   ├── ......./
 │   │   ├── 📁 resources/scripts # python 크롤링 파일
 │   ├── 📁 src/main
 │   └── 📄 build.gradle
