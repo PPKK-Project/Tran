@@ -62,11 +62,19 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       # 1. 시크릿 환경 변수 선언 (Secret 값 참조)
+      # ERROR 해결: 멀티라인 Secret을 처리하기 위해 EOF 문법을 사용합니다.
       - name: Set Configuration Secrets
-        # Secret 값을 환경 변수로 저장하여 SSH 명령어에서 사용
+        shell: bash
         run: |
-          echo "BACKEND_CONFIG_SECRET=${{ secrets.BACKEND_CONFIG_FILE }}" >> $GITHUB_ENV
-          echo "FRONTEND_CONFIG_SECRET=${{ secrets.FRONTEND_CONFIG_FILE }}" >> $GITHUB_ENV
+          # 1. BACKEND_CONFIG_FILE (application.properties) 설정
+          echo "BACKEND_CONFIG_SECRET<<EOF_BACKEND" >> $GITHUB_ENV
+          echo "${{ secrets.BACKEND_CONFIG_FILE }}" >> $GITHUB_ENV
+          echo "EOF_BACKEND" >> $GITHUB_ENV
+
+          # 2. FRONTEND_CONFIG_FILE (.env) 설정
+          echo "FRONTEND_CONFIG_SECRET<<EOF_FRONTEND" >> $GITHUB_ENV
+          echo "${{ secrets.FRONTEND_CONFIG_FILE }}" >> $GITHUB_ENV
+          echo "EOF_FRONTEND" >> $GITHUB_ENV
 
       # 2. 컨테이너 배포 및 설정 파일 주입
       - name: 🔄 Deploy Containers & Inject Configs via SSH
@@ -93,8 +101,7 @@ jobs:
             # 3. GitHub Secret 내용을 VM의 임시 파일로 생성
             echo 'Creating config files on VM...'
             # application.properties 생성 (백엔드용)
-            # SSH 내부에서 환경 변수를 사용할 때는 '$' 기호를 이스케이프해야 합니다.
-            # SECRET 내용을 파일로 안전하게 작성합니다.
+            # Secret 값은 이미 EOF로 설정되었으므로 이스케이프 없이 바로 사용합니다.
             echo \"${{ env.BACKEND_CONFIG_SECRET }}\" > /tmp/application.properties
             
             # .env 파일 생성 (프론트엔드용)
