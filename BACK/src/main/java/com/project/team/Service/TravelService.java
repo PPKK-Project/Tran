@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +35,9 @@ public class TravelService {
                 dto.countryCode(),
                 dto.title(),
                 dto.startDate(),
-                dto.endDate()
+                dto.endDate(),
+                dto.departure(),
+                dto.headcount()
         );
 
         return ResponseEntity.ok(travelRepository.save(travel));
@@ -69,6 +69,8 @@ public class TravelService {
         if (request.title() != null) travel.setTitle(request.title());
         if (request.startDate() != null) travel.setStartDate(request.startDate());
         if (request.endDate() != null) travel.setEndDate(request.endDate());
+        if (request.departure() != null) travel.setDeparture(request.departure());
+        if (request.headcount() != null) travel.setHeadcount(request.headcount());
 
         return new TravelResponse(travelRepository.save(travel));
     }

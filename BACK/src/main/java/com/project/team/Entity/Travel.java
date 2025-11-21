@@ -27,6 +27,8 @@ public class Travel {
     private String title;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String departure;
+    private Integer headcount; // 여행인원
 
     @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -44,11 +46,20 @@ public class Travel {
     @JsonIgnore
     private List<TravelPermission> permissions = new ArrayList<>();
 
-    public Travel(User user, String countryCode, String title, LocalDate startDate, LocalDate endDate) {
+    public Travel(User user,
+                  String countryCode,
+                  String title,
+                  LocalDate startDate,
+                  LocalDate endDate,
+                  String departure,
+                  Integer headcount
+    ) {
         this.user = user;
         this.countryCode = countryCode;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.departure = departure;
+        this.headcount = headcount;
     }
 }

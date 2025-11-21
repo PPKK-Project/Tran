@@ -12,6 +12,7 @@ import SignIn from "./components/login/SignIn";
 import VerifyEmail from "./components/login/VerifyEmail";
 import Flight from "./components/plan/Flight";
 import TravelPlanPdfPage from "./components/pdfPages/TravelPlanpdfPage";
+import TravelLayout from "./components/plan/TravelLayout";
 
 const queryClient = new QueryClient();
 
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/travels/:travelId",
-    element: <TravelPlanPage />,
+    element: <TravelLayout />,
     children: [
       {
         path: "flight",
