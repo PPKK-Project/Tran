@@ -5,7 +5,8 @@ COPY package-lock.json .
 RUN npm install
 # RUN npm install --save-dev @types/sockjs-client @types/react-dom
 COPY . .
-RUN npm run build
+ARG VITE_BASE_URL
+RUN npm run build -- --base=$VITE_BASE_URL
 FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build /usr/share/nginx/html

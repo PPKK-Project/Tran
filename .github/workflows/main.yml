@@ -22,13 +22,13 @@ jobs:
     steps:
       - name: 📦 Checkout code
         uses: actions/checkout@v4
-
+      
       # 1. GCP 인증 (AR 및 VM 접속 권한 획득)
       - name: 🔑 Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
-
+          
       # 2. Docker 인증 설정 (Artifact Registry 로그인)
       - name: 🐳 Set up Docker auth
         run: gcloud auth configure-docker ${{ env.AR_LOCATION }}-docker.pkg.dev
@@ -41,11 +41,14 @@ jobs:
           docker tag teamproject-backend:latest $BACKEND_TAG
           docker push $BACKEND_TAG
 
-      # 4. Frontend 빌드 및 푸시
+      # 4. Frontend 빌드 및 푸시 (*** /api 주소 빌드 아규먼트로 주입 ***)
       - name: Build & Push Frontend
         run: |
           FRONTEND_TAG="${{ env.AR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.AR_REPO_NAME }}/teamproject-frontend:latest"
-          docker build --no-cache -t teamproject-frontend:latest ./FRONT/teamproject
+          # VITE_BASE_URL=/api 값을 빌드 아규먼트로 전달 (Dockerfile의 ARG와 연결됨)
+          docker build --no-cache \
+            --build-arg VITE_BASE_URL=/api \
+            -t teamproject-frontend:latest ./FRONT/teamproject
           docker tag teamproject-frontend:latest $FRONTEND_TAG
           docker push $FRONTEND_TAG
 
@@ -60,35 +63,29 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-      # 1. 시크릿 환경 변수 선언 (Secret 값 참조)
-      # ERROR 해결: 멀티라인 Secret을 처리하기 위해 EOF 문법을 사용합니다.
+          
+      # 1. 시크릿 환경 변수 선언 (application.properties 만 유지)
       - name: Set Configuration Secrets
         shell: bash
         run: |
-          # 1. BACKEND_CONFIG_FILE (application.properties) 설정
+          # 백엔드 설정 파일(application.properties)만 EOF로 처리합니다.
           echo "BACKEND_CONFIG_SECRET<<EOF_BACKEND" >> $GITHUB_ENV
           echo "${{ secrets.BACKEND_CONFIG_FILE }}" >> $GITHUB_ENV
           echo "EOF_BACKEND" >> $GITHUB_ENV
-
-          # 2. FRONTEND_CONFIG_FILE (.env) 설정
-          echo "FRONTEND_CONFIG_SECRET<<EOF_FRONTEND" >> $GITHUB_ENV
-          echo "${{ secrets.FRONTEND_CONFIG_FILE }}" >> $GITHUB_ENV
-          echo "EOF_FRONTEND" >> $GITHUB_ENV
+          
+          # 프론트엔드 Secret (FRONTEND_CONFIG_FILE)은 빌드 시점에 해결되어 제거됨
 
       # 2. 컨테이너 배포 및 설정 파일 주입
       - name: 🔄 Deploy Containers & Inject Configs via SSH
         env:
-          # 여기서 정의한 환경 변수들은 다음 단계의 run 스크립트에서 사용됨
           BACKEND_TAG: ${{ env.AR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.AR_REPO_NAME }}/teamproject-backend:latest
           FRONTEND_TAG: ${{ env.AR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.AR_REPO_NAME }}/teamproject-frontend:latest
-          # DB 비밀번호는 application.properties에 포함되어 있다고 가정하고, DB 컨테이너 실행을 위해 사용
-          DB_PASSWORD: "qwer1234"
+          DB_PASSWORD: 'qwer1234' 
 
         run: |
-          # SSH 명령을 하나의 블록으로 묶어 실행 효율성을 높이고 Secret 값을 전달합니다.
           echo "Starting SSH deployment to VM..."
-          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --command "
+          
+          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --quiet --command "
             # 1. Docker 인증 및 이미지 Pull
             gcloud auth configure-docker asia-northeast3-docker.pkg.dev;
             docker pull ${{ env.BACKEND_TAG }}; 
@@ -98,14 +95,11 @@ jobs:
             echo 'Removing existing containers...'
             docker rm -f frontend-app spring-boot-app mariadb-server;
 
-            # 3. GitHub Secret 내용을 VM의 임시 파일로 생성
+            # 3. GitHub Secret 내용을 VM의 임시 파일로 생성 (application.properties 만)
             echo 'Creating config files on VM...'
-            # application.properties 생성 (백엔드용)
-            # Secret 값은 이미 EOF로 설정되었으므로 이스케이프 없이 바로 사용합니다.
             echo \"${{ env.BACKEND_CONFIG_SECRET }}\" > /tmp/application.properties
             
-            # .env 파일 생성 (프론트엔드용)
-            echo \"${{ env.FRONTEND_CONFIG_SECRET }}\" > /tmp/.env
+            # .env 파일 생성 로직 제거됨
 
             # 4. 새로운 컨테이너 재실행 (DB -> Backend -> Frontend 순서)
             echo 'Starting mariadb-server container...'
@@ -114,15 +108,14 @@ jobs:
             -v mariadb_data:/var/lib/mysql mariadb:latest ;
 
             echo 'Starting spring-boot-app container...'
-            # Backend: application.properties 파일을 컨테이너 내부의 설정 경로로 마운트
+            # Backend: application.properties 마운트
             docker run -d -p 8080:8080 --network my-app-network --name spring-boot-app \
             -v /tmp/application.properties:/app/application.properties \
             ${{ env.BACKEND_TAG }} ;
             
             echo 'Starting frontend-app container...'
-            # Frontend: .env 파일을 컨테이너 내부의 루트 경로로 마운트
+            # Frontend: VITE_BASE_URL은 빌드 시점에 하드코딩되었고, .env 파일 마운트는 불필요함
             docker run -d -p 80:80 --network my-app-network --name frontend-app \
-            -v /tmp/.env:/.env \
             ${{ env.FRONTEND_TAG }}
-          "
+          " --ssh-flag="-vvv -o StrictHostKeyChecking=no"
           echo "Deployment complete! Check VM status."
