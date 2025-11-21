@@ -1,0 +1,192 @@
+.basic-plan-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9fafb;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.basic-plan-wrapper {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 600px;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.plan-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.input-field {
+    padding: 0.8rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.date-selector-button {
+    padding: 0.8rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.date-selector-button:hover {
+    border-color: #9ca3af;
+    background-color: #f3f4f6;
+}
+
+.selected-date {
+    font-weight: 600;
+    color: #111827;
+}
+
+.date-duration {
+    margin-left: 8px;
+    font-size: 0.85rem;
+    color: #3b82f6;
+    background-color: #eff6ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.placeholder-text {
+    color: #9ca3af;
+}
+
+.calendar-icon {
+    font-size: 1.2rem;
+}
+
+.headcount-counter {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 150px;
+}
+
+.counter-btn {
+    background-color: #f3f4f6;
+    border: none;
+    padding: 0.8rem 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #4b5563;
+    transition: background-color 0.2s;
+}
+
+.counter-btn:hover:not(:disabled) {
+    background-color: #e5e7eb;
+}
+
+.counter-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.count-display {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+.action-buttons {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.submit-btn {
+    flex: 2;
+    padding: 1rem;
+    background-color: #3b82f6;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #2563eb;
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 1rem;
+    background-color: white;
+    color: #4b5563;
+    font-weight: 600;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: #f3f4f6;
+}
+
+@media (max-width: 640px) {
+    .basic-plan-wrapper {
+        padding: 1.5rem;
+    }
+    .page-title {
+        font-size: 1.5rem;
+    }
+}

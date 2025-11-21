@@ -74,7 +74,7 @@ export type PlaceSearchResult = {
  * 여행 정보 (조회용)
  */
 export type Travel = {
-  id?: number; // travelId
+  id: number; // travelId
   title: string;
   countryCode: string | null;
   startDate: string | null;
@@ -92,7 +92,6 @@ export type CreateTravelRequest = {
   countryCode?: string;
 };
 
-
 /**
  * 여행 수정 요청 DTO
  * 백엔드 UpdateTravelRequest Record와 일치
@@ -104,28 +103,3 @@ export type UpdateTravelRequest = {
 };
 
 export type PlaceFilter = "all" | "숙소" | "관광지" | "음식점";
-
-// 기존 타입 정의 유지
-export type Place ={
-    id: string;
-    place_name: string;
-    address_name: string;
-    category_group_code?: string;
-    category_group_name?: string;
-    phone?: string;
-    x: string;
-    y: string;
-    place_url?: string;
-    imageUrl?: string;
-}
-
-export type TravelResponse = {
-    id: number;
-    title: string;
-    startDate: string;
-    endDate: string;
-    plans: TravelPlan[];
-    departure: string;
-    destination: string; // API 응답에도 추가
-    personnel: number;
-}
