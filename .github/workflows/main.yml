@@ -70,20 +70,18 @@ jobs:
 
           # 1. VM에서 최신 Docker 이미지 Pull
           echo "Pulling latest images on VM..."
-          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --user ${{ env.SSH_USER }} --command "
+          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --command "
             docker pull $BACKEND_TAG; 
             docker pull $FRONTEND_TAG
           "
-          
           # 2. 기존 컨테이너 모두 강제 삭제
           echo "Removing existing containers..."
-          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --user ${{ env.SSH_USER }} --command "
+          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --command "
             docker rm -f frontend-app spring-boot-app mariadb-server
           "
-
           # 3. 새로운 컨테이너 재실행 (DB -> Backend -> Frontend 순서)
           echo "Restarting containers with latest images..."
-          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --user ${{ env.SSH_USER }} --command "
+          gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --command "
             docker run -d --name mariadb-server --network my-app-network -p 3306:3306 \
             -e MARIADB_ROOT_PASSWORD='$DB_PASSWORD' -e MARIADB_DATABASE='beachcombine' \
             -v mariadb_data:/var/lib/mysql mariadb:latest ;
