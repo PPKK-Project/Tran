@@ -71,6 +71,7 @@ jobs:
           # 1. VM에서 최신 Docker 이미지 Pull
           echo "Pulling latest images on VM..."
           gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --command "
+            gcloud auth configure-docker asia-northeast3-docker.pkg.dev;
             docker pull $BACKEND_TAG; 
             docker pull $FRONTEND_TAG
           "
