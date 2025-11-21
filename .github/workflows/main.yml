@@ -41,13 +41,15 @@ jobs:
           docker tag teamproject-backend:latest $BACKEND_TAG
           docker push $BACKEND_TAG
 
-      # 4. Frontend 빌드 및 푸시 (*** VITE_BASE_URL 빌드 아규먼트로 주입 ***)
+      # 4. Frontend 빌드 및 푸시 (*** VITE_BASE_URL, VITE_KOSIS_KEY, VITE_GOOGLE_MAPS_API_KEY 빌드 아규먼트로 주입 ***)
       - name: Build & Push Frontend
         run: |
           FRONTEND_TAG="${{ env.AR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.AR_REPO_NAME }}/teamproject-frontend:latest"
-          # VITE_BASE_URL=/api 값을 빌드 아규먼트로 전달 (이 값은 빌드 시점에 코드에 고정됨)
+          # VITE 환경 변수들을 빌드 시점에 Secret에서 직접 주입합니다.
           docker build --no-cache \
             --build-arg VITE_BASE_URL=/api \
+            --build-arg VITE_KOSIS_KEY=${{ secrets.VITE_KOSIS_KEY }} \
+            --build-arg VITE_GOOGLE_MAPS_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }} \
             -t teamproject-frontend:latest ./FRONT/teamproject
           docker tag teamproject-frontend:latest $FRONTEND_TAG
           docker push $FRONTEND_TAG
