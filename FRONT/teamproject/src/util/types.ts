@@ -79,8 +79,6 @@ export type Travel = {
   countryCode: string | null;
   startDate: string | null;
   endDate: string | null;
-  departure?: string;
-  headcount?: number;
 };
 
 /**
@@ -92,9 +90,8 @@ export type CreateTravelRequest = {
   startDate: string | null;
   endDate: string | null;
   countryCode?: string;
-  departure?: string;
-  headcount?: number;
 };
+
 
 /**
  * 여행 수정 요청 DTO
@@ -104,18 +101,6 @@ export type UpdateTravelRequest = {
   title?: string;
   startDate?: string | null;
   endDate?: string | null;
-  departure?: string;
-  headcount?: number;
 };
 
 export type PlaceFilter = "all" | "숙소" | "관광지" | "음식점";
-
-// 항공권 관련 타입 (FlightData, FlightSearchRequest)이 필요하다면 여기에 추가
-export type FlightData = {
-  // 실제 구조에 맞게 수정 필요
-  id: number;
-  airline: string;
-  departureTime: string;
-  arrivalTime: string;
-  price: number;
-};
