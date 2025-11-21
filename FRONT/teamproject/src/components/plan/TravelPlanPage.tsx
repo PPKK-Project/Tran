@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams, Outlet, useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { useParams, Outlet, useLocation } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar"; // Snackbar import 추가
 import { useTravelData } from "../../hooks/useTravelData";
 import { DateSelectionModal } from "./DateSelectionModal";
@@ -9,19 +9,15 @@ import PlanMap from "./PlanMap";
 import ItinerarySummary from "./ItinerarySummary";
 import { Alert } from "@mui/material";
 
-type TabType = 'basic' | 'itinerary';
-
-const TravelPlanPage: React.FC = () => {
+function TravelPlanPage() {
   // URL에서 /travels/:travelId 의 'travelId' 값을 가져옴
   const { travelId } = useParams<{ travelId: string }>();
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<TabType>('basic');
-  const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const location = useLocation(); // 현재 경로를 가져오기 위해 useLocation 추가
 
   // 커스텀 훅에서 모든 상태와 핸들러를 가져온다.
   const {
     travelInfo,
+    isDateModalOpen,
     dates,
     handleSaveDates,
     plans,
