@@ -84,12 +84,15 @@ jobs:
           echo "Restarting containers with latest images..."
           gcloud compute ssh ${{ env.VM_NAME }} --zone ${{ env.VM_ZONE }} --command "
             docker run -d --name mariadb-server --network my-app-network -p 3306:3306 \
-            -e MARIADB_ROOT_PASSWORD='$DB_PASSWORD' -e MARIADB_DATABASE='beachcombine' \
+            -e MARIADB_ROOT_PASSWORD='$DB_PASSWORD' -e MARIADB_DATABASE='tlandb' \
             -v mariadb_data:/var/lib/mysql mariadb:latest ;
-
             # Backend 컨테이너 재실행
-            docker run -d -p 8080:8080 --network my-app-network --name spring-boot-app $BACKEND_TAG ;
-
+            docker run -d -p 8080:8080 --network my-app-network --name spring-boot-app \
+            -e SPRING_DATASOURCE_URL='jdbc:mariadb://mariadb-server:3306/tlandb' \
+            -e SPRING_DATASOURCE_USERNAME='root' \
+            -e SPRING_DATASOURCE_PASSWORD='$DB_PASSWORD' \
+            -e SPRING_DATASOURCE_DRIVER_CLASS_NAME='org.mariadb.jdbc.Driver' \
+            $BACKEND_TAG ;
             # Frontend 컨테이너 재실행
             docker run -d -p 80:80 --network my-app-network --name frontend-app $FRONTEND_TAG
           "
