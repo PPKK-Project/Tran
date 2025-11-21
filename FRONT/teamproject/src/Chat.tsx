@@ -86,7 +86,7 @@ function Chat() {
     const token = localStorage.getItem("jwt");
 
     const client = new Client({
-      webSocketFactory: () => new SockJS("http://localhost:8080/ws-stomp"),
+      webSocketFactory: () => new SockJS("/ws-stomp"),
       debug: (str) => {
         console.log(new Date(), str);
       },

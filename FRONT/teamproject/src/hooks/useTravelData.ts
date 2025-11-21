@@ -160,7 +160,7 @@ export function useTravelData(travelId: string | undefined) {
           adult: 1,
         };
 
-        const flightRes = await axios.get("http://localhost:8080/flight", {
+        const flightRes = await axios.get(`${import.meta.env.VITE_BASE_URL}/flight`, {
           params,
         });
         setFlights(flightRes.data);
